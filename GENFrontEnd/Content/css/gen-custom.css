@@ -1,0 +1,133 @@
+﻿
+/*IMAGE FACILITIES CSS*/
+.module {
+  margin: 10px;
+  width: 100%;
+  height: 220px;
+  float: left;
+  background-size: cover;
+  position: relative;
+}
+
+.general-english{
+    background-image: url(../../Images/Students/Student_1.jpg);
+}
+
+.special-purpose{
+    background-image: url(../../Images/Students/Student_2.jpg);
+}
+
+.toefl-preparation{
+    background-image: url(../../Images/Students/Student_3.jpg);
+}
+
+.Facilities_1{
+    background-image: url(../../Images/Facilities/Facilities_1.jpg);
+}
+
+.Facilities_2{
+    background-image: url(../../Images/Facilities/Facilities_2.jpg);
+}
+
+.Facilities_3{
+    background-image: url(../../Images/Facilities/Facilities_3.jpg);
+}
+
+.Facilities_4{
+    background-image: url(../../Images/Facilities/Facilities_4.jpg);
+}
+
+.Facilities_5{
+    background-image: url(../../Images/Facilities/Facilities_5.jpg);
+}
+
+.Facilities_6{
+    background-image: url(../../Images/Facilities/Facilities_6.jpg);
+}
+
+.moduleTitle{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background: rgba(0, 0, 0, 0.50);
+  padding: 10px 8px;
+  color: white;
+  margin: 0;
+  font: 24px Sans-Serif;
+}
+
+.textOnImage .opp h2 {
+  background: rgba(255, 255, 255, 0.75);
+  color: black;
+}
+
+/*PROGRAM DETIL CSS*/
+.demo-3 h2:after, 
+.demo-3 h3:after, 
+.demo-3 h4:after {
+	position: absolute;
+	content: "";
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 5px;
+	border-radius: 2px;
+	box-shadow: 
+		inset 0 1px 1px rgba(0,0,0,0.5), 
+		0 1px 1px rgba(255,255,255,0.3);
+}
+
+.demo-3 h2:after { background: #0AF; }
+.demo-3 h3:after { background: #3BF; }
+.demo-3 h4:after { background: #6Cf; }
+
+.demo-3 h1 {
+	font-size: 36px;
+	line-height: 40px;
+	margin: 1em 0 .6em 0;
+	font-weight: bolder;
+	color: white;
+	font-family: 'Hammersmith One', sans-serif;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	position: relative;
+	color: inherit;
+}
+
+.demo-3 h2 {
+	margin: 1em 0 .6em 0;
+	padding: 0 0 0 20px;
+	font-weight: normal;
+	color: inherit;
+	font-family: 'Hammersmith One', sans-serif;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	position: relative;
+	font-size: 30px;
+	line-height: 40px;
+}
+
+.demo-3 h3 {
+	margin: 1em 0 .6em 0;
+	padding: 0 0 0 20px;
+	font-weight: normal;
+	color: white;
+	font-family: 'Hammersmith One', sans-serif;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	position: relative;
+	font-size: 24px;
+	line-height: 40px;
+	font-family: 'Questrial', sans-serif;
+}
+
+.demo-3 h4 { 
+	margin: 1em 0 .6em 0;
+	padding: 0 0 0 20px;
+	font-weight: normal;
+	color: white;
+	font-family: 'Hammersmith One', sans-serif;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
+	position: relative;
+	font-size: 18px;
+	line-height: 20px;
+	font-family: 'Questrial', sans-serif;
+}

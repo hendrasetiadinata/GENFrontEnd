@@ -1,0 +1,90 @@
+﻿
+<div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2>Lokasi</h2>
+            </div>
+            <div class="col-md-12 col-sm-12">
+                <div class="col-md-1 col-sm-1"></div>
+                <div id="outerdiv"  class="col-md-10 col-sm-10">
+                    <div id="map" style="width:920px;height:450px">
+                    </div>
+                </div>
+                <div class="col-md-1 col-sm-1"></div>
+            </div>
+        </div>
+        @Html.Partial("PartialDivider")
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <h2>Pertanyaan</h2>
+            </div>
+            <div class="col-md-1 col-sm-1"></div>
+            <div class="col-md-10 col-sm-10">
+                <div class="col-md-12 col-sm-12">
+                    <input type="text" id="SenderFullName" placeholder="Name" class="form-control" required>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <input type="email" id="SenderEmail" placeholder="Email" class="form-control" required>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <input type="text" id="SenderPhone" placeholder="Phone" class="form-control" required>
+                </div>
+                <div class="col-md-12 col-sm-12">
+                    <textarea placeholder="Message" id="SenderQuestion" class="form-control" rows="5" required></textarea>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <p>* Mohon input email yang masih aktif, agar mudah dibalas oleh customer service kami</p>
+                </div>
+                <div class="col-md-4 col-sm-4">
+                    <input type="submit" value="KIRIM PESAN" class="form-control" onclick="sendMessage(); return false;">
+                </div>
+            </div>
+            <div class="col-md-1 col-sm-1"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var Key = '<%= ViewData["MAPS_API_KEY"].ToString() %>';
+    var map;
+    var latlang = { lat: -6.3521404099315415, lng: 106.83246955275536 };
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: latlang,
+            zoom: 17
+        });
+        var marker = new google.maps.Marker({
+            position: latlang,
+            map: map,
+            title: 'GEN'
+        });
+    }
+    function sendMessage() {
+        var parameter = {
+            SenderFullName: $("#SenderFullName").val(),
+            SenderEmail: $("#SenderEmail").val(),
+            SenderPhone: $("#SenderPhone").val(),
+            SenderQuestion: $("#SenderQuestion").val()
+        }
+        $.ajax({
+            url: "/Main/SendQuestion",
+            type: "POST",
+            dataType: "json",
+            timeout: 200000,
+            data: JSON.stringify(parameter),
+            beforeSend: function () {
+            },
+            success: function (data, textStatus, jqXHR) {
+                var Response = JSON.parse(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+            },
+            complete: function () {
+            }
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYLFXTmSvtE3gqHcChc6fgXTC6wHmmfMY&callback=initMap"></script>
+
+

@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- stylesheet css -->
+    <link href="../../Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../Content/css/nivo-lightbox.css" rel="stylesheet" />
+    <link href="../../Content/css/nivo_themes/default/default.css" rel="stylesheet" />
+    <link href="../../Content/css/templatemo-style.css" rel="stylesheet" />
+    <link href="../../Content/css/fontwebcss.css" rel="stylesheet" />
+</head>
+<body data-spy="scroll" data-target=".navbar-collapse" id="top">
+    <!-- navigation -->
+    @Html.Partial("PartialHeader")
+    <div class="row">
+        @RenderBody()
+    </div>
+    @Html.Partial("PartialDivider")
+    <!-- footer section -->
+    @Html.Partial("PartialFooter")
+    <!-- divider section -->
+    @Html.Partial("PartialDivider")
+    <!-- copyright section -->
+    <div class="copyright">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-sm-12">
+                    <p>&copy; Superfresh 2084. All Rights Reserved | Design: <a target="_blank" rel="nofollow" href="http://www.templatemo.com">NATS Development</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- scrolltop section -->
+    <a href="#top" class="go-top"><i class="fa fa-angle-up"></i></a>
+    <!-- javascript js -->
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script src="~/Content/js/nivo-lightbox.min.js"></script>
+    <script src="~/Content/js/smoothscroll.js"></script>
+    <script src="~/Content/js/jquery.nav.js"></script>
+    <script src="~/Content/js/isotope.js"></script>
+    <script src="~/Content/js/imagesloaded.min.js"></script>
+    <script src="~/Content/js/custom.js"></script>
+    <script type="text/javascript">
+    $('ul.nav li.dropdown').hover(function () {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+    }, function () {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+    });
+    if (window.location.pathname == '/Main/Program') {
+        $("#hrefHome").attr("href", "Home");
+    } else {
+        $("#hrefHome").attr("href", "#Home");
+    }
+    </script>
+</body>
+</html>
