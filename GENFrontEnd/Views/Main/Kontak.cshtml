@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "Kontak";
+    Layout = "~/Views/Shared/_LayoutPageGen.cshtml";
+}
+
+@Styles.Render("~/Content/css/gen-custom.css");
+
+<div id="kontak">
+    <div class="container">
+        <div class="row demo-3" style="margin-top:50px">
+            <h1>KONTAK</h1>
+            <div>
+                @*<h2>Alamat</h2>
+                <div style="margin-left:23px">
+                    <p>Program yang dirancang khusus untuk anak usia Sekolah Dasar (6-12 tahun) dengan tujuan memberikan eksposur pada penggunaan bahasa Inggris sehari-hari. Pelajaran disampaikan secara komunikatif dan menyenangkan, sehingga anak-anak merasa senang di dalam mempelajari bahasa pergaulan dunia ini.</p>
+                </div>*@
+                <h3>Alamat</h3>
+                <div style="margin-left:23px">
+                    <div class="row" style="margin:0px">Jl. Raya Lenteng Agung No.3</div>
+                    <div class="row" style="margin:0px">Lenteng Agung, Jakarta Selatan</div>
+                    <div class="row" style="margin:0px">DKI Jakarta, Indonesia</div>
+                    <div class="row" style="margin:0px">Email : customerservice@globalenglishnetwork.com</div>
+                    <div class="row" style="margin:0px">Phone : (021) 22072990</div>
+                </div>
+                <h3>Peta Lokasi</h3>
+                <div class="col-md-12 col-sm-12">
+                    <div class="col-md-1 col-sm-1"></div>
+                    <div id="outerdiv" class="col-md-10 col-sm-10">
+                        <div id="map" style="width:920px;height:450px">
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var map;
+    var latlang = { lat: -6.3521404099315415, lng: 106.83246955275536 };
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: latlang,
+            zoom: 17
+        });
+        var marker = new google.maps.Marker({
+            position: latlang,
+            map: map,
+            title: 'GEN'
+        });
+    }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYLFXTmSvtE3gqHcChc6fgXTC6wHmmfMY&callback=initMap"></script>
+
+
+

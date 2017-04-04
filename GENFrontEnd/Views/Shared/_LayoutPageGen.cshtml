@@ -28,7 +28,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 col-sm-12">
-                    <p>&copy; Superfresh 2084. All Rights Reserved | Design: <a target="_blank" rel="nofollow" href="http://www.templatemo.com">NATS Development</a></p>
+                    <p>&copy; Superfresh 2084. All Rights Reserved | Design: <a target="_blank" rel="nofollow" href="#">NATS Development</a></p>
                 </div>
             </div>
         </div>
@@ -50,11 +50,78 @@
     }, function () {
         $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
     });
-    if (window.location.pathname == '/Main/Program') {
+    if (window.location.pathname == '/Main/ProgramSpecialPurpose'
+        || window.location.pathname == '/Main/ProgramGeneralEnglish'
+        || window.location.pathname == '/Main/ProgramTOEFLPreparation'
+        || window.location.pathname == '/Main/Kontak') {
         $("#hrefHome").attr("href", "Home");
+        $("#hrefProfile").attr("href", "Home");
+        $("#hrefGallery").attr("href", "Home");
     } else {
-        $("#hrefHome").attr("href", "#Home");
+        $("#hrefHome").attr("href", "Home");
+        $("#hrefProfile").attr("href", "#profile");
+        $("#hrefGallery").attr("href", "#gallery");
     }
+    $(".moduleTitle").click(function () {
+        var dataprogram = $(this).attr('data-program');
+        window.location = dataprogram;
+    });
+
+    $(document).on('.close', function () {
+        $(this).parent().hide();
+    });
+    var waitingDialog = waitingDialog || (function ($) {
+        'use strict';
+        // Creating modal dialog's DOM
+        var $dialog = $(
+            '<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
+            '<div class="modal-dialog modal-m">' +
+            '<div class="modal-content">' +
+                '<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+                '<div class="modal-body">' +
+                    '<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
+                '</div>' +
+            '</div></div></div>');
+
+        return {
+            show: function (message, options) {
+                // Assigning defaults
+                if (typeof options === 'undefined') {
+                    options = {};
+                }
+                if (typeof message === 'undefined') {
+                    message = 'Loading';
+                }
+                var settings = $.extend({
+                    dialogSize: 'm',
+                    progressType: '',
+                    onHide: null // This callback runs after the dialog was hidden
+                }, options);
+
+                // Configuring dialog
+                $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
+                $dialog.find('.progress-bar').attr('class', 'progress-bar');
+                if (settings.progressType) {
+                    $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
+                }
+                $dialog.find('h3').text(message);
+                // Adding callbacks
+                if (typeof settings.onHide === 'function') {
+                    $dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
+                        settings.onHide.call($dialog);
+                    });
+                }
+                // Opening dialog
+                $dialog.modal();
+            },
+            /**
+             * Closes dialog
+             */
+            hide: function () {
+                $dialog.modal('hide');
+            }
+        };
+    })(jQuery);
     </script>
 </body>
 </html>

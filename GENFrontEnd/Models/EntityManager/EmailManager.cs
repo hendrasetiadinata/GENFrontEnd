@@ -71,7 +71,6 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
-
         public Int32 getEmailID()
         {
             var emailID = "";
@@ -87,6 +86,15 @@ namespace GENFrontEnd.Models.EntityManager
                 }
             }
             return Convert.ToInt32(emailID);
+        }
+        public List<TREMAIL> getEmailList(BusinessLogic.Model.Email email)
+        {
+            List<TREMAIL> list = new List<TREMAIL>();
+            using (GENEntities db = new GENEntities())
+            {
+                list = db.Database.SqlQuery<TREMAIL>(@"EXEC SP_GETEMAIL '" + email.CreatedDate + "'").ToList();
+            }
+            return list;
         }
     }
 }

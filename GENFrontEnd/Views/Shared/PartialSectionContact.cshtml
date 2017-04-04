@@ -34,10 +34,16 @@
                     <textarea placeholder="Message" id="SenderQuestion" class="form-control" rows="5" required></textarea>
                 </div>
                 <div class="col-md-8 col-sm-8">
-                    <p>* Mohon input email yang masih aktif, agar mudah dibalas oleh customer service kami</p>
+                    <p style="font-size:12px">* Mohon input email yang masih aktif, agar mudah dibalas oleh customer service kami</p>
                 </div>
                 <div class="col-md-4 col-sm-4">
-                    <input type="submit" value="KIRIM PESAN" class="form-control" onclick="sendMessage(); return false;">
+                    <input type="submit" id="btnKirimPesan" value="KIRIM PESAN" class="form-control" onclick="sendMessage(this); return false;">
+                </div>
+                <div id="divInfoMsg" class="col-md-12 col-sm-12" style="display:none">
+                    <div class="alert alert-info alert-normal-info">
+                        <button type="button" class="close">×</button>
+                        <span id="msgInfo"></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-1 col-sm-1"></div>
@@ -59,23 +65,33 @@
             title: 'GEN'
         });
     }
-    function sendMessage() {
+    function sendMessage(element) {
         var parameter = {
             SenderFullName: $("#SenderFullName").val(),
             SenderEmail: $("#SenderEmail").val(),
             SenderPhone: $("#SenderPhone").val(),
             SenderQuestion: $("#SenderQuestion").val()
         }
+        waitingDialog.show('Mohon ditunggu, data sedang dikirim');
+        setTimeout(function () { waitingDialog.hide(); }, 3000);
         $.ajax({
             url: "/Main/SendQuestion",
             type: "POST",
             dataType: "json",
             timeout: 200000,
-            data: JSON.stringify(parameter),
+            data: (parameter),
             beforeSend: function () {
+                $("#divInfoMsg").text("");
             },
             success: function (data, textStatus, jqXHR) {
-                var Response = JSON.parse(data);
+                waitingDialog.hide();
+                alert(data.Description);
+                //$("#msgInfo").text(data.Description);
+                //$('#divInfoMsg').show();
+                //$('#divInfoMsg').delay(6000).fadeOut("slow", function () {
+                //    // Animation complete.
+                //    $('#divInfoMsg').prop("disabled", false);
+                //});
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);

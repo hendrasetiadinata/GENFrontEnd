@@ -30,11 +30,23 @@ namespace GENFrontEnd.Controllers
             ViewData["MAPS_API_KEY"] = Util.getProperty("MAPS_API_KEY");
             return View();
         }
-        public ActionResult Program()
+        public ActionResult ProgramGeneralEnglish()
+        {
+            return View();
+        }
+        public ActionResult ProgramSpecialPurpose()
+        {
+            return View();
+        }
+        public ActionResult ProgramTOEFLPreparation()
         {
             return View();
         }
         public ActionResult PartialSectionContact()
+        {
+            return View();
+        }
+        public ActionResult Kontak()
         {
             return View();
         }
@@ -49,6 +61,16 @@ namespace GENFrontEnd.Controllers
                 email = email.setSaveEmail(SenderFullName, SenderPhone, SenderEmail, SenderQuestion, SenderIP);
                 message = emailManager.insert_Email(email);
                 Result = JsonConvert.SerializeObject(message);
+            }
+            return Result;
+        }
+        public String getQuestion(string EmailID)
+        {
+            string Result = "";
+            if (EmailID != null)
+            {
+                email.EmailID = Convert.ToInt32(EmailID);
+                Result = JsonConvert.SerializeObject(emailManager.getEmailList(email));
             }
             return Result;
         }

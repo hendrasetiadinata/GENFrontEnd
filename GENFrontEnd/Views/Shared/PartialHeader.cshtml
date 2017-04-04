@@ -3,8 +3,8 @@
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon icon-bar"></span> <span class="icon icon-bar"></span> <span class="icon icon-bar"></span></button>
-            <a href="#" class="navbar-brand">GEN</a>
-            @*<img src="~/Images/logo.jpg" style="width:50px;height:30px" />*@
+            @*<a href="#" class="navbar-brand">GEN</a>*@
+            <img src="~/Images/GENWeb2.png" style="width:220px;height:80px" />
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -13,13 +13,19 @@
                 <li id="MenuProgram" class="dropdown">
                     <a href="#program" id="hrefProgram" class="smoothScroll dropdown-toggle" data-toggle="dropdown">PROGRAM</a>
                     <ul class="dropdown-menu">
-                        <li><a id="hrefGeneralEnglish" href="Program">General English</a></li>
-                        <li><a id="hrefSpecialPurpose" href="Program">Special Purpose</a></li>
-                        <li><a id="hrefProgram" href="Program">TOEFL Preparation</a></li>
+                        <li><a id="hrefGeneralEnglish" href="ProgramGeneralEnglish">General English</a></li>
+                        <li><a id="hrefSpecialPurpose" href="ProgramSpecialPurpose">Special Purpose</a></li>
+                        <li><a id="hrefProgram" href="ProgramTOEFLPreparation">TOEFL Preparation</a></li>
                     </ul>
                 </li>
                 <li class="MenuGen"><a id="hrefGallery" href="#gallery" class="smoothScroll">GALERI</a></li>
-                <li class="MenuGen"><a id="hrefContact" href="#contact" class="smoothScroll">KONTAK</a></li>
+                <li class="MenuGen dropdown">
+                    <a id="hrefContact" href="#contact" class="smoothScroll dropdown-toggle" data-toggle="dropdown">KONTAK</a>
+                    <ul class="dropdown-menu">
+                        <li><a id="hrefKontak" href="Kontak">Alamat</a></li>
+                        <li><a id="hrefKirimPesan" href="Kontak">Kirim Pertanyaan</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

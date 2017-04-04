@@ -64,10 +64,12 @@ img:hover {
 	line-height: 60px;
 }
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-	color: #f2af00;
+	/*color: #f2af00;*/
+    color: #ff6666;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: #f2af00;
+	/*color: #f2af00;*/
+    color: #ff6666;
 	background-color: transparent;
 }
 .navbar-default .navbar-toggle {
@@ -385,7 +387,7 @@ footer span {
 }
 /* scrolltop section */
 .go-top {
-	background-color: #f2af00;
+	background-color: #ff6666;
 	font-size: 26px;
 	bottom: 2em;
 	right: 2em;

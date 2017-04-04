@@ -313,6 +313,8 @@
     <Content Include="Images\Facilities\Facilities_4.jpg" />
     <Content Include="Images\Facilities\Facilities_5.jpg" />
     <Content Include="Images\Facilities\Facilities_6.jpg" />
+    <Content Include="Images\GENWeb.png" />
+    <Content Include="Images\GENWeb2.png" />
     <Content Include="Images\logo.jpg" />
     <Content Include="Content\images\portfolio-img1.jpg" />
     <Content Include="Content\images\portfolio-img2.jpg" />
@@ -459,7 +461,10 @@
     <Content Include="Views\Shared\PartialSectionContact.cshtml" />
     <Content Include="Views\Shared\PartialSectionGallery.cshtml" />
     <Content Include="Views\Shared\PartialLoad.cshtml" />
-    <Content Include="Views\Main\Program.cshtml" />
+    <Content Include="Views\Main\ProgramGeneralEnglish.cshtml" />
+    <Content Include="Views\Main\ProgramSpecialPurpose.cshtml" />
+    <Content Include="Views\Main\ProgramTOEFLPreparation.cshtml" />
+    <Content Include="Views\Main\Kontak.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

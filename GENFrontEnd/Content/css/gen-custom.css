@@ -9,6 +9,10 @@
   position: relative;
 }
 
+.textOnImage:hover{
+    cursor: pointer;
+}
+
 .general-english{
     background-image: url(../../Images/Students/Student_1.jpg);
 }
@@ -110,10 +114,10 @@
 	margin: 1em 0 .6em 0;
 	padding: 0 0 0 20px;
 	font-weight: normal;
-	color: white;
+	color: #dc5034;
 	font-family: 'Hammersmith One', sans-serif;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
-	position: relative;
+	/*position: relative;*/
 	font-size: 24px;
 	line-height: 40px;
 	font-family: 'Questrial', sans-serif;
@@ -130,4 +134,29 @@
 	font-size: 18px;
 	line-height: 20px;
 	font-family: 'Questrial', sans-serif;
+}
+.confirm-modal
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    z-index: 99;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    min-height: 100%;
+    width: 100%;
+}
+.confirm-loading
+{
+    font-family: Arial;
+    font-size: 10pt;
+    border: 5px solid #67CFF5;
+    width: 200px;
+    height: 100px;
+    display: none;
+    position: fixed;
+    background-color: White;
+    z-index: 999;
 }
