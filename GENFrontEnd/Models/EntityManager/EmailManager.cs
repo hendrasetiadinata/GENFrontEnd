@@ -87,12 +87,20 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return Convert.ToInt32(emailID);
         }
-        public List<TREMAIL> getEmailList(BusinessLogic.Model.Email email)
+        public List<TREMAIL> getEmailList(Email email)
         {
             List<TREMAIL> list = new List<TREMAIL>();
-            using (GENEntities db = new GENEntities())
+            try
             {
-                list = db.Database.SqlQuery<TREMAIL>(@"EXEC SP_GETEMAIL '" + email.CreatedDate + "'").ToList();
+                using (GENEntities db = new GENEntities())
+                {
+                    //list = db.Database.SqlQuery<TREMAIL>(@"EXEC SP_GETEMAIL '" + email.CreatedDate + "'").ToList();
+                    list = db.TREMAILs.Where(x => x.IsReply == null).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
             }
             return list;
         }

@@ -201,6 +201,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BackEndController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -309,6 +310,27 @@
     <Content Include="Content\images\Gears.gif" />
     <Content Include="Content\images\home-bg.jpg" />
     <Content Include="Content\js\modal-dialog.js" />
+    <Content Include="Content\lumino\css\bootstrap-table.css" />
+    <Content Include="Content\lumino\css\bootstrap-theme.css" />
+    <Content Include="Content\lumino\css\bootstrap-theme.min.css" />
+    <Content Include="Content\lumino\css\bootstrap.css" />
+    <Content Include="Content\lumino\css\bootstrap.min.css" />
+    <Content Include="Content\lumino\css\datepicker.css" />
+    <Content Include="Content\lumino\css\datepicker3.css" />
+    <Content Include="Content\lumino\css\styles.css" />
+    <Content Include="Content\lumino\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\lumino\js\bootstrap-datepicker.js" />
+    <Content Include="Content\lumino\js\bootstrap-table.js" />
+    <Content Include="Content\lumino\js\bootstrap.js" />
+    <Content Include="Content\lumino\js\bootstrap.min.js" />
+    <Content Include="Content\lumino\js\chart-data.js" />
+    <Content Include="Content\lumino\js\chart.min.js" />
+    <Content Include="Content\lumino\js\easypiechart-data.js" />
+    <Content Include="Content\lumino\js\easypiechart.js" />
+    <Content Include="Content\lumino\js\html5shiv.min.js" />
+    <Content Include="Content\lumino\js\jquery-1.11.1.min.js" />
+    <Content Include="Content\lumino\js\lumino.glyphs.js" />
+    <Content Include="Content\lumino\js\respond.min.js" />
     <Content Include="Images\Facilities\Facilities_3.jpg" />
     <Content Include="Images\Facilities\Facilities_4.jpg" />
     <Content Include="Images\Facilities\Facilities_5.jpg" />
@@ -402,6 +424,13 @@
     <Content Include="Models\DB\EmailModel.edmx.diagram">
       <DependentUpon>EmailModel.edmx</DependentUpon>
     </Content>
+    <Content Include="Content\lumino\css\bootstrap-theme.css.map" />
+    <Content Include="Content\lumino\css\bootstrap.css.map" />
+    <Content Include="Content\lumino\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\lumino\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\lumino\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\lumino\tables\data1.json" />
+    <Content Include="Content\lumino\tables\data2.json" />
     <None Include="Properties\PublishProfiles\GenProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -465,6 +494,8 @@
     <Content Include="Views\Main\ProgramSpecialPurpose.cshtml" />
     <Content Include="Views\Main\ProgramTOEFLPreparation.cshtml" />
     <Content Include="Views\Main\Kontak.cshtml" />
+    <Content Include="Views\Shared\_LayoutPageLumino.cshtml" />
+    <Content Include="Views\BackEnd\MasterEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

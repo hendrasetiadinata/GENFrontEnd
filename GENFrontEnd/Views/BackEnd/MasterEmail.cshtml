@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "MasterEmail";
+    Layout = "~/Views/Shared/_LayoutPageLumino.cshtml";
+    ViewBag.HeaderPage = "Master Email";
+}
+
+<div>
+    <div>
+        <table id="tblEmail" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Email ID</th>
+                    <th>Sender Name</th>
+                    <th>Sender Email</th>
+                    <th>Sender Phone</th>
+                    <th>Send Date</th>
+                    <th>Question</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="popUpEmail" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="$('#popUpEmail').modal('hide');">&times;</button>
+                    <h2 class="modal-title">Message Detil</h2>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section JSSection {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/dataRender/datetime.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#tblEmail').DataTable({
+                ajax: {
+                    url: "/BackEnd/getQuestion?EmailID=",
+                    dataSrc: ''
+                },
+                "columns": [
+                    { "data": "EmailID" },
+                    { "data": "EmailID" },
+                    { "data": "SenderFullName" },
+                    { "data": "SenderPhone" },
+                    { "data": "SenderEmail" },
+                    { "data": "CreatedDate" },
+                    { "data": "SenderQuestion" }],
+                "order": [[1, 'asc']],
+                "columnDefs": [{
+                    "targets": 1,
+                    "data": "EmailID",
+                    "render": function (data, type, full, meta) {
+                        return '<button style="width:100px;font-weight:bold" class="cell-datatables" data-emailid="' + data + '">' + data + '</button>';
+                    }
+                }]
+            });
+            table.on('order.dt search.dt', function () {
+                table.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            }).draw();
+            $('#tblEmail tbody').on('click', 'button', function () {
+                var EmailID = $(this).data("emailid");
+                $("#popUpEmail").modal("show");
+            });
+        });
+    </script>
+}
+

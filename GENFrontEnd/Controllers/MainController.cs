@@ -64,15 +64,5 @@ namespace GENFrontEnd.Controllers
             }
             return Result;
         }
-        public String getQuestion(string EmailID)
-        {
-            string Result = "";
-            if (EmailID != null)
-            {
-                email.EmailID = Convert.ToInt32(EmailID);
-                Result = JsonConvert.SerializeObject(emailManager.getEmailList(email));
-            }
-            return Result;
-        }
     }
 }
