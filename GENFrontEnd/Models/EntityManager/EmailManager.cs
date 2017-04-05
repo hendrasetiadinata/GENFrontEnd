@@ -47,15 +47,14 @@ namespace GENFrontEnd.Models.EntityManager
         {
             try
             {
-                TREMAIL trEmail = new TREMAIL();
-                trEmail.EmailID = 0;
+                TREMAIL trEmail = getEmail(email.EmailID);
                 trEmail.IsReply = 1;
                 trEmail.ReplyDate = DateTime.Now;
                 trEmail.ReplyMessage = email.ReplyMessage;
                 trEmail.CreatedBy = email.CreatedBy;
                 trEmail.EmailCategory = email.EmailCategory;
                 GENEntities db = new GENEntities();
-                db.TREMAILs.Add(trEmail);
+                db.Entry(trEmail).State = System.Data.Entity.EntityState.Modified;
                 if (db.SaveChanges() > 0)
                 {
                     msg.setMessage("MSG0001", "Data updated successfully", null);
@@ -103,6 +102,22 @@ namespace GENFrontEnd.Models.EntityManager
                 msg.setMessage(null, ex.Message, "ERR0001");
             }
             return list;
+        }
+        public TREMAIL getEmail (Int32 EmailID)
+        {
+            TREMAIL Email = new TREMAIL();
+            try
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    Email = db.TREMAILs.Where(x => x.EmailID == EmailID).SingleOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
+            }
+            return Email;
         }
     }
 }

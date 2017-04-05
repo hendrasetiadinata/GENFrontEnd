@@ -29,11 +29,41 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" onclick="$('#popUpEmail').modal('hide');">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal" onclick="$('#popUpEmail').modal('hide'); clearPopUpValue();">&times;</button>
                     <h2 class="modal-title">Message Detil</h2>
                 </div>
                 <div class="modal-body">
-                    
+                    <div class="panel panel-default">
+                        <div class="panel-body" id="divPanelBodyPopUp">
+                            <div class="form-group">
+                                <label>Sender Name</label>
+                                <span id="spanSenderName"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Sender Email</label>
+                                <span id="spanSenderEmail"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Sender Question</label>
+                                <span id="spanSenderQuestion"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>Question Type</label>
+                                <select class="form-control" id="comboQuestion">
+                                    <option value="0">Pilih Data</option>
+                                    <option value="Q001">Program</option>
+                                    <option value="Q002">Harga</option>
+                                    <option value="Q003">Fasilitas</option>
+                                    <option value="Q004">Pengajar</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Reply Message</label>
+                                <textarea id="txtReplyMessage" class="form-control" rows="3"></textarea>
+                            </div>
+                            <button id="btnSendEmail" type="submit" class="btn btn-primary" data-emailid="" onclick="senMessage(this);">Send Email</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,10 +103,50 @@
                 });
             }).draw();
             $('#tblEmail tbody').on('click', 'button', function () {
+                var datarow = table.row($(this).parents('tr')).data();
                 var EmailID = $(this).data("emailid");
+                $("#spanSenderName").text(datarow.SenderFullName);
+                $("#spanSenderQuestion").text(datarow.SenderQuestion);
+                $("#spanSenderEmail").text(datarow.SenderEmail);
+                $("#spanSenderPhone").text(datarow.SenderPhone);
+                $("#btnSendEmail").attr("data-emailid", EmailID);
                 $("#popUpEmail").modal("show");
             });
         });
+        function clearPopUpValue() {
+            $("#spanSenderName").text("");
+            $("#spanSenderQuestion").text("");
+            $("#spanSenderEmail").text("");
+            $("#spanSenderPhone").text("");
+            $("#txtReplyMessage").val("");
+        }
+        function senMessage(element) {
+            var EmailID = $(element).data("emailid");
+            var parameter = {
+                ReplyMessage: $("#txtReplyMessage").val(),
+                EmailCategory: $("#comboQuestion").val(),
+                EmailID: EmailID
+            }
+            if (EmailID != null && EmailID != '') {
+                $.ajax({
+                    url: "/BackEnd/ReplyMessage",
+                    type: "POST",
+                    dataType: "json",
+                    timeout: 100000,
+                    data: (parameter),
+                    beforeSend: function () {
+                    },
+                    success: function (data, textStatus, jqXHR) {
+                        console.log('data: ' + data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                    },
+                    complete: function () {
+                    }
+                });
+            }
+        }
     </script>
 }
 
