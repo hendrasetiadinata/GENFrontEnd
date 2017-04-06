@@ -240,6 +240,7 @@
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EntityManager\EmailManager.cs" />
+    <Compile Include="Models\EntityManager\EmployeeManager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -292,6 +293,7 @@
     <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\fontwebcss.css" />
     <Content Include="Content\css\gen-custom.css" />
+    <Content Include="Content\css\login.css" />
     <Content Include="Content\css\nivo-lightbox.css" />
     <Content Include="Content\css\nivo_themes\default\close%402x.png" />
     <Content Include="Content\css\nivo_themes\default\close.png" />
@@ -309,6 +311,13 @@
     <Content Include="Content\images\about-img.jpg" />
     <Content Include="Content\images\Gears.gif" />
     <Content Include="Content\images\home-bg.jpg" />
+    <Content Include="Content\images\pattern\checkered_pattern.png" />
+    <Content Include="Content\images\pattern\chruch.png" />
+    <Content Include="Content\images\pattern\flowers.png" />
+    <Content Include="Content\images\pattern\gray_sand.png" />
+    <Content Include="Content\images\pattern\lyonnette.png" />
+    <Content Include="Content\images\pattern\retina_wood.png" />
+    <Content Include="Content\images\pattern\tileable_wood_texture.png" />
     <Content Include="Content\js\modal-dialog.js" />
     <Content Include="Content\lumino\css\bootstrap-table.css" />
     <Content Include="Content\lumino\css\bootstrap-theme.css" />
@@ -496,6 +505,7 @@
     <Content Include="Views\Main\Kontak.cshtml" />
     <Content Include="Views\Shared\_LayoutPageLumino.cshtml" />
     <Content Include="Views\BackEnd\MasterEmail.cshtml" />
+    <Content Include="Views\BackEnd\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

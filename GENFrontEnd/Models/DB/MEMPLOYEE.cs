@@ -14,7 +14,7 @@ namespace GENFrontEnd.Models.DB
     
     public partial class MEMPLOYEE
     {
-        public string EmployeeId { get; set; }
+        public Int32 EmployeeId { get; set; }
         public string UserId { get; set; }
         public string Password { get; set; }
         public string EmployeeName { get; set; }

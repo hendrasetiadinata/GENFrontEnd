@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Text;
 using GENFrontEnd.Models.DB;
 using BusinessLogic.Model;
+using System.Configuration;
 
 namespace GENFrontEnd.Controllers
 {
@@ -22,6 +23,11 @@ namespace GENFrontEnd.Controllers
         BusinessLogic.Model.Email email = new BusinessLogic.Model.Email();
         Models.EntityManager.EmailManager emailManager = new Models.EntityManager.EmailManager();
         TREMAIL trEmail = new TREMAIL();
+
+        public ActionResult Login()
+        {
+            return View();
+        }
 
         public ActionResult MasterEmail()
         {
@@ -60,29 +66,29 @@ namespace GENFrontEnd.Controllers
             }
             return Result;
         }
-        private void sendEmail2 ()
-        {
-            //CDO.Message
-        }
         private Message sendEmail (BusinessLogic.Model.Email email)
         {
             Message msg = new Message();
             trEmail = emailManager.getEmail(email.EmailID);
-
-            string to = trEmail.SenderEmail; //To address    
-            string from = "gencourse@zoho.com"; //From address    
-            MailMessage message = new MailMessage(from, to);
-
-            string mailbody = trEmail.ReplyMessage;
+              
+            MailMessage message = new MailMessage();
+            message.From = new MailAddress(ConfigurationManager.AppSettings["USERNAMEMAIL"]);
+            message.To.Add(new MailAddress(trEmail.SenderEmail));
             message.Subject = "GEN - Reply Message <gencourse@zoho.com>";
-            message.Body = mailbody;
+            message.Body = trEmail.ReplyMessage;
             message.BodyEncoding = Encoding.UTF8;
-            message.IsBodyHtml = true;
-            SmtpClient client = new SmtpClient("smtp.zoho.com", 465); //Zoho smtp    
-            System.Net.NetworkCredential basicCredential1 = new System.Net.NetworkCredential("hendrasetiadinata18@gmail.com", "bozzy010077");
+            message.IsBodyHtml = true;  
+
+            NetworkCredential basicCredential1 = new NetworkCredential();
+            basicCredential1.UserName = ConfigurationManager.AppSettings["USERNAMEMAIL"];
+            basicCredential1.Password = ConfigurationManager.AppSettings["PASSWORDMAIL"];
+
+            SmtpClient client = new SmtpClient();
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential1;
+            client.Host = ConfigurationManager.AppSettings["PASSWORDSMTP"];
+            client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["PASSWORDSMTP"]);
             try
             {
                 client.Send(message);
@@ -91,7 +97,7 @@ namespace GENFrontEnd.Controllers
             }
             catch (Exception ex)
             {
-                msg.Description = "Send message is failed";
+                msg.Description = "Send message is failed, " + ex.Message;
                 msg.ErrorCode = "ERR0001";
                 throw ex;
             }

@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_LayoutPageLumino.cshtml";
     ViewBag.HeaderPage = "Master Email";
 }
-
+<style type="text/css">
+	#popUpEmail .modal-dialog  {width:1000px;}
+</style>
 <div>
     <div>
         <table id="tblEmail" class="table table-hover">
@@ -24,7 +26,7 @@
 </div>
 <div class="container">
     <!-- Modal -->
-    <div class="modal fade" id="popUpEmail" role="dialog">
+    <div id="popUpEmail" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -37,20 +39,20 @@
                         <div class="panel-body" id="divPanelBodyPopUp">
                             <div class="form-group">
                                 <label>Sender Name</label>
-                                <span id="spanSenderName"></span>
+                                <span id="spanSenderName" class="form-control"></span>
                             </div>
                             <div class="form-group">
                                 <label>Sender Email</label>
-                                <span id="spanSenderEmail"></span>
+                                <span id="spanSenderEmail" class="form-control"></span>
                             </div>
                             <div class="form-group">
                                 <label>Sender Question</label>
-                                <span id="spanSenderQuestion"></span>
+                                <span id="spanSenderQuestion" class="form-control"></span>
                             </div>
                             <div class="form-group">
                                 <label>Question Type</label>
-                                <select class="form-control" id="comboQuestion">
-                                    <option value="0">Pilih Data</option>
+                                <select class="form-control" id="comboQuestion" required>
+                                    <option value=""></option>
                                     <option value="Q001">Program</option>
                                     <option value="Q002">Harga</option>
                                     <option value="Q003">Fasilitas</option>
@@ -59,9 +61,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Reply Message</label>
-                                <textarea id="txtReplyMessage" class="form-control" rows="3"></textarea>
+                                <textarea id="txtReplyMessage" class="form-control" rows="3" required></textarea>
                             </div>
-                            <button id="btnSendEmail" type="submit" class="btn btn-primary" data-emailid="" onclick="senMessage(this);">Send Email</button>
+                            <button id="btnSendEmail" type="submit" class="btn btn-primary" style="width:100px" data-emailid="" onclick="senMessage(this);">Send Email</button>
+                            &nbsp;&nbsp;
+                            <button id="btnCancel" type="submit" class="btn btn-warning" style="width:100px" onclick="$('#popUpEmail').modal('hide'); clearPopUpValue();">Cancel</button>
                         </div>
                     </div>
                 </div>
