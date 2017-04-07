@@ -12,6 +12,8 @@ namespace GENFrontEnd.Models.EntityManager
     public class EmployeeManager
     {
         Message msg = new Message();
+        List<MEMPLOYEE> listEmployee = new List<MEMPLOYEE>();
+
         public Message InsertEmployee (MEMPLOYEE Employee)
         {
             try
@@ -60,15 +62,17 @@ namespace GENFrontEnd.Models.EntityManager
             {
                 using (GENEntities db = new GENEntities())
                 {
-                    var properties = Employee.GetType().GetProperties(BindingFlags.Public | BindingFlags.Static);
-                    foreach (var data in properties)
-                    {
-                        var attribute = (DisplayNameAttribute)data.GetCustomAttribute(typeof(DisplayNameAttribute), true);
-                        if (attribute != null)
-                        {
-                            
-                        }
-                    }
+                    
+                    //var properties = Employee.GetType().GetProperties(BindingFlags.Public | BindingFlags.Static);
+                    //foreach (var data in properties)
+                    //{
+                    //    var attribute = (DisplayNameAttribute)data.GetCustomAttribute(typeof(DisplayNameAttribute), true);
+                    //    if (attribute != null)
+                    //    {
+                    //        string FieldName = attribute.DisplayName;
+                    //        string tst = data.GetValue(Employee, null).ToString();
+                    //    }
+                    //}
                 }
             }
             catch (Exception ex)
@@ -77,6 +81,47 @@ namespace GENFrontEnd.Models.EntityManager
                 throw ex;
             }
             return msg;
+        }
+        public List<MEMPLOYEE> ListEmployee ()
+        {
+            listEmployee = new List<MEMPLOYEE>();
+            try
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    listEmployee = db.MEMPLOYEEs.Where(x => x.Active == 1).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
+                throw ex;
+            }
+            return listEmployee;
+        }
+        public MEMPLOYEE getEmployee(int? EmployeeID)
+        {
+            MEMPLOYEE employee = new MEMPLOYEE();
+            if (EmployeeID != null)
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    employee = db.MEMPLOYEEs.Where(x => x.Active == 1 && x.EmployeeId == EmployeeID).SingleOrDefault();
+                }
+            }
+            return employee;
+        }
+        public MEMPLOYEE getEmployee(String Username)
+        {
+            MEMPLOYEE employee = new MEMPLOYEE();
+            if (Username != null)
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    employee = db.MEMPLOYEEs.Where(x => x.Active == 1 && x.UserId == Username).SingleOrDefault();
+                }
+            }
+            return employee;
         }
         public Int32 getEmployeeID()
         {

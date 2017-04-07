@@ -4,12 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d85cd43666f149199bb13e73853f79e7" Name="Diagram1">
+      <Diagram DiagramId="d85cd43666f149199bb13e73853f79e7" Name="Diagram1" ZoomLevel="98">
         <EntityTypeShape EntityType="GENModel.MCOMBO" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.MEMPLOYEE" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.MPOSITION" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.TREMAIL" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.MBRANCH" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GENModel.TRLOG" Width="1.5" PointX="0.75" PointY="6.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

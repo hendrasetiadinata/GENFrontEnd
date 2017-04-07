@@ -205,6 +205,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Encryption.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,8 +240,10 @@
     <Compile Include="Models\DB\TREMAIL.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\TRLOG.cs" />
     <Compile Include="Models\EntityManager\EmailManager.cs" />
     <Compile Include="Models\EntityManager\EmployeeManager.cs" />
+    <Compile Include="Models\EntityManager\LogManager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -266,7 +269,6 @@
     <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
     <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
     <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
-    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
     <Content Include="bin\Microsoft.Owin.dll" />
     <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
     <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />

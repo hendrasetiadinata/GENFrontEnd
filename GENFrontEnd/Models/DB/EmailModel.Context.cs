@@ -30,5 +30,6 @@ namespace GENFrontEnd.Models.DB
         public virtual DbSet<MPOSITION> MPOSITIONs { get; set; }
         public virtual DbSet<TREMAIL> TREMAILs { get; set; }
         public virtual DbSet<MBRANCH> MBRANCHes { get; set; }
+        public virtual DbSet<TRLOG> TRLOGs { get; set; }
     }
 }

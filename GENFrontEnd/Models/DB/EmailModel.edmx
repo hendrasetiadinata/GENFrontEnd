@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="GENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="GENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MBRANCH">
@@ -34,7 +34,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
           <Property Name="UserId" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="200" />
           <Property Name="EmployeeName" Type="varchar" MaxLength="255" />
@@ -80,12 +80,22 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="ReplyMessage" Type="varchar(max)" />
           <Property Name="EmailCategory" Type="varchar" MaxLength="5" />
         </EntityType>
+        <EntityType Name="TRLOG">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="SessionID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="SessionID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+        </EntityType>
         <Function Name="GetEmailId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar" />
         <EntityContainer Name="GENModelStoreContainer">
           <EntitySet Name="MCOMBO" EntityType="Self.MCOMBO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMPLOYEE" EntityType="Self.MEMPLOYEE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MPOSITION" EntityType="Self.MPOSITION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TREMAIL" EntityType="Self.TREMAIL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRLOG" EntityType="Self.TRLOG" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MBRANCH" EntityType="Self.MBRANCH" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [MBRANCH].[BranchID] AS [BranchID], 
@@ -97,8 +107,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
     FROM [dbo].[MBRANCH] AS [MBRANCH]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="GENModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -118,7 +127,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" />
           <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -181,7 +190,17 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <EntitySet Name="MPOSITIONs" EntityType="Self.MPOSITION" />
           <EntitySet Name="TREMAILs" EntityType="Self.TREMAIL" />
           <EntitySet Name="MBRANCHes" EntityType="Self.MBRANCH" />
+          <EntitySet Name="TRLOGs" EntityType="GENModel.TRLOG" />
         </EntityContainer>
+        <EntityType Name="TRLOG">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="SessionID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
+          <Property Name="SessionID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -263,6 +282,15 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
                 <ScalarProperty Name="BranchPhoneNumber" ColumnName="BranchPhoneNumber" />
                 <ScalarProperty Name="BranchFaxNumber" ColumnName="BranchFaxNumber" />
                 <ScalarProperty Name="BranchManager" ColumnName="BranchManager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRLOGs">
+            <EntityTypeMapping TypeName="GENModel.TRLOG">
+              <MappingFragment StoreEntitySet="TRLOG">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

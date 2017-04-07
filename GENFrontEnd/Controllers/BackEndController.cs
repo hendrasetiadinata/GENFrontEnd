@@ -19,13 +19,46 @@ namespace GENFrontEnd.Controllers
     public class BackEndController : Controller
     {
         // GET: BackEnd
+        Encryption enc = new Encryption();
         BusinessLogic.Model.Message message = new BusinessLogic.Model.Message();
         BusinessLogic.Model.Email email = new BusinessLogic.Model.Email();
         Models.EntityManager.EmailManager emailManager = new Models.EntityManager.EmailManager();
+        Models.EntityManager.LogManager logManager = new Models.EntityManager.LogManager();
+        Models.EntityManager.EmployeeManager employeeManager = new Models.EntityManager.EmployeeManager();
         TREMAIL trEmail = new TREMAIL();
+        TRLOG trLog = new TRLOG();
+        MEMPLOYEE employee = new MEMPLOYEE();
 
         public ActionResult Login()
         {
+            string Message = "";
+            bool Status = false;
+            if (Request.Form != null && Request.Form.AllKeys.Count() > 0)
+            {
+                NameValueCollection nvc = Request.Form;
+                String Username = Convert.ToString(nvc["Username"]);
+                String Password = Convert.ToString(nvc["Password"]);
+                employee = employeeManager.getEmployee(Username);
+                if (employee != null)
+                {
+                    if ((enc.Decrypt(employee.Password, "istananegara") == Password)
+                        && (Username.Trim() == employee.UserId))
+                    {
+                        Status = true;
+                        Message = "Login berhasil";
+                    }
+                    else
+                    {
+                        Message = "Password tidak valid";
+                    }
+                }
+                else
+                {
+                    Message = "Username belum terdaftar";
+                }
+            }
+            ViewData["MESSAGE"] = Message;
+            ViewData["STATUS"] = Status;
             return View();
         }
 
