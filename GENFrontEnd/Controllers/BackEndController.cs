@@ -44,8 +44,27 @@ namespace GENFrontEnd.Controllers
                     if ((enc.Decrypt(employee.Password, "istananegara") == Password)
                         && (Username.Trim() == employee.UserId))
                     {
-                        Status = true;
                         Message = "Login berhasil";
+
+                        trLog = logManager.getLog(Convert.ToString(employee.EmployeeId));
+                        string SessionID = Guid.NewGuid().ToString();
+
+                        TRLOG sendLog = new TRLOG();
+                        sendLog.EmployeeID = Convert.ToString(employee.EmployeeId);
+                        sendLog.CreatedDate = DateTime.Now;
+                        sendLog.SessionID = SessionID;
+                        Message msgLog = new Message();
+                        if (trLog != null)
+                        {
+                            msgLog = logManager.UpdateLog(sendLog);
+                        }
+                        else
+                        {
+                            msgLog = logManager.InsertLog(sendLog);
+                        }
+                        Status = true;
+                        Session.Add("SESSIONID", Session);
+                        Session.Add("EMPLOYEEID", employee.EmployeeId);
                     }
                     else
                     {
@@ -56,6 +75,11 @@ namespace GENFrontEnd.Controllers
                 {
                     Message = "Username belum terdaftar";
                 }
+            }
+            if (!Status)
+            {
+                Session["SESSIONID"] = null;
+                Session["EMPLOYEEID"] = null;
             }
             ViewData["MESSAGE"] = Message;
             ViewData["STATUS"] = Status;

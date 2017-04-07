@@ -6,6 +6,9 @@ using System.Web;
 using GENFrontEnd.Models.DB;
 using System.Reflection;
 using System.ComponentModel;
+using System.Linq.Expressions;
+using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace GENFrontEnd.Models.EntityManager
 {
@@ -56,23 +59,26 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
-        public Message UpdateEmployee (MEMPLOYEE Employee)
+        public Message UpdateEmployee (MEMPLOYEE entity, Expression<Func<MEMPLOYEE, object>>[] properties)
         {
             try
             {
-                using (GENEntities db = new GENEntities())
+                using (GENEntities dbContext = new GENEntities())
                 {
-                    
-                    //var properties = Employee.GetType().GetProperties(BindingFlags.Public | BindingFlags.Static);
-                    //foreach (var data in properties)
-                    //{
-                    //    var attribute = (DisplayNameAttribute)data.GetCustomAttribute(typeof(DisplayNameAttribute), true);
-                    //    if (attribute != null)
-                    //    {
-                    //        string FieldName = attribute.DisplayName;
-                    //        string tst = data.GetValue(Employee, null).ToString();
-                    //    }
-                    //}
+                    dbContext.Entry(entity).State = EntityState.Unchanged;
+                    foreach (var property in properties)
+                    {
+                        var propertyName = ExpressionHelper.GetExpressionText(property);
+                        dbContext.Entry(entity).Property(propertyName).IsModified = true;
+                    }
+                    if (dbContext.SaveChanges() > 0)
+                    {
+                        msg.setMessage("MSG0001", "Data updated successfully", null);
+                    }
+                    else
+                    {
+                        msg.setMessage("MSG0002", "Data could not be updated", null);
+                    }
                 }
             }
             catch (Exception ex)

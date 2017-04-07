@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using GENFrontEnd.Models.DB;
 using BusinessLogic.Model;
+using System.Linq.Expressions;
+using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace GENFrontEnd.Models.EntityManager
 {
@@ -39,12 +42,33 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+        public Message UpdateLog(TRLOG entity, Expression<Func<TRLOG, object>>[] properties)
+        {
+            using (GENEntities dbContext = new GENEntities())
+            {
+                dbContext.Entry(entity).State = EntityState.Unchanged;
+                foreach (var property in properties)
+                {
+                    var propertyName = ExpressionHelper.GetExpressionText(property);
+                    dbContext.Entry(entity).Property(propertyName).IsModified = true;
+                }
+                if (dbContext.SaveChanges() > 0)
+                {
+                    msg.setMessage("MSG0001", "Data updated successfully", null);
+                }
+                else
+                {
+                    msg.setMessage("MSG0002", "Data could not be updated", null);
+                }
+            }
+            return msg;
+        }
         public Message UpdateLog(TRLOG Log)
         {
             try
             {
                 TRLOG UpdateLog = getLog(Log.EmployeeID);
-                UpdateLog.SessionID = Guid.NewGuid().ToString();
+                UpdateLog.SessionID = Log.SessionID;
                 UpdateLog.CreatedDate = DateTime.Now;
                 using (GENEntities db = new GENEntities())
                 {

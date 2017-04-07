@@ -43,3 +43,16 @@
 <!-- javascript js -->
 <script src="~/Content/lumino/js/jquery-1.11.1.min.js"></script>
 <script src="~/Content/lumino/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var Status = '<%=ViewData["STATUS"]%>';
+    var Message = '<%=ViewData["MESSAGE"]%>';
+    if (Status != '' && Message != '') {
+        if (Status == true) {
+            if (alert(Message)) {
+                document.location = '/MasterEmail';
+            }
+        } else {
+            alert(Message);
+        }
+    }
+</script>
