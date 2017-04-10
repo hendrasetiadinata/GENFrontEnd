@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="GENModel.MPOSITION" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.TREMAIL" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="GENModel.MBRANCH" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GENModel.TRLOG" Width="1.5" PointX="0.75" PointY="6.125" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

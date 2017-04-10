@@ -17,6 +17,36 @@ namespace GENFrontEnd
         const string initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
         const int keySize = 256;                // can be 192 or 128
 
+        public string getMd5Hash(string input)
+        {
+            if (input != "")
+            {
+                // Create a new instance of the MD5CryptoServiceProvider object.
+                MD5 md5Hasher = MD5.Create();
+
+                // Convert the input string to a byte array and compute the hash.
+                byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+
+                // Create a new Stringbuilder to collect the bytes
+                // and create a string.
+                StringBuilder sBuilder = new StringBuilder();
+
+                // Loop through each byte of the hashed data 
+                // and format each one as a hexadecimal string.
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+
+                // Return the hexadecimal string.
+                return sBuilder.ToString();
+            }
+            else
+            {
+                return "";
+            }
+        }
+
         public string Encrypt(string rawPassword)
         {
             byte[] initVectorBytes = Encoding.UTF8.GetBytes(initVector);

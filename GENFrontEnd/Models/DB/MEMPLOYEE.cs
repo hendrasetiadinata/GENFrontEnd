@@ -14,7 +14,7 @@ namespace GENFrontEnd.Models.DB
     
     public partial class MEMPLOYEE
     {
-        public Int32 EmployeeId { get; set; }
+        public string EmployeeId { get; set; }
         public string UserId { get; set; }
         public string Password { get; set; }
         public string EmployeeName { get; set; }
@@ -34,5 +34,6 @@ namespace GENFrontEnd.Models.DB
         public string Phone { get; set; }
         public string Phone2 { get; set; }
         public Nullable<System.DateTime> JoinDate { get; set; }
+        public string SessionID { get; set; }
     }
 }

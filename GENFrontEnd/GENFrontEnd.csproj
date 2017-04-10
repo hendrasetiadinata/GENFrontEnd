@@ -240,7 +240,9 @@
     <Compile Include="Models\DB\TREMAIL.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\DB\TRLOG.cs" />
+    <Compile Include="Models\DB\TRLOG.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EntityManager\EmailManager.cs" />
     <Compile Include="Models\EntityManager\EmployeeManager.cs" />
     <Compile Include="Models\EntityManager\LogManager.cs" />
@@ -508,6 +510,7 @@
     <Content Include="Views\Shared\_LayoutPageLumino.cshtml" />
     <Content Include="Views\BackEnd\MasterEmail.cshtml" />
     <Content Include="Views\BackEnd\Login.cshtml" />
+    <Content Include="Views\BackEnd\Home.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

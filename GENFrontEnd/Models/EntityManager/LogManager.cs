@@ -44,22 +44,30 @@ namespace GENFrontEnd.Models.EntityManager
         }
         public Message UpdateLog(TRLOG entity, Expression<Func<TRLOG, object>>[] properties)
         {
-            using (GENEntities dbContext = new GENEntities())
+            try
             {
-                dbContext.Entry(entity).State = EntityState.Unchanged;
-                foreach (var property in properties)
+                using (GENEntities dbContext = new GENEntities())
                 {
-                    var propertyName = ExpressionHelper.GetExpressionText(property);
-                    dbContext.Entry(entity).Property(propertyName).IsModified = true;
+                    dbContext.Entry(entity).State = EntityState.Unchanged;
+                    foreach (var property in properties)
+                    {
+                        var propertyName = ExpressionHelper.GetExpressionText(property);
+                        dbContext.Entry(entity).Property(propertyName).IsModified = true;
+                    }
+                    if (dbContext.SaveChanges() > 0)
+                    {
+                        msg.setMessage("MSG0001", "Data updated successfully", null);
+                    }
+                    else
+                    {
+                        msg.setMessage("MSG0002", "Data could not be updated", null);
+                    }
                 }
-                if (dbContext.SaveChanges() > 0)
-                {
-                    msg.setMessage("MSG0001", "Data updated successfully", null);
-                }
-                else
-                {
-                    msg.setMessage("MSG0002", "Data could not be updated", null);
-                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
+                throw ex;
             }
             return msg;
         }

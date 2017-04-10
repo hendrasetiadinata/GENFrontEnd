@@ -26,7 +26,7 @@
                     <form role="form" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="Username" name="username" type="email" autofocus="" required>
+                                <input class="form-control" placeholder="Username" name="username" type="text" autofocus="" required>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" name="password" type="password" value="" required>
@@ -43,16 +43,3 @@
 <!-- javascript js -->
 <script src="~/Content/lumino/js/jquery-1.11.1.min.js"></script>
 <script src="~/Content/lumino/js/bootstrap.min.js"></script>
-<script type="text/javascript">
-    var Status = '<%=ViewData["STATUS"]%>';
-    var Message = '<%=ViewData["MESSAGE"]%>';
-    if (Status != '' && Message != '') {
-        if (Status == true) {
-            if (alert(Message)) {
-                document.location = '/MasterEmail';
-            }
-        } else {
-            alert(Message);
-        }
-    }
-</script>

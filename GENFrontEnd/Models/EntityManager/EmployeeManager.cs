@@ -39,6 +39,7 @@ namespace GENFrontEnd.Models.EntityManager
                 employee.Phone = Employee.Phone;
                 employee.Phone2 = Employee.Phone2;
                 employee.JoinDate = Employee.JoinDate;
+                employee.SessionID = Employee.SessionID;
                 using (GENEntities db = new GENEntities())
                 {
                     db.MEMPLOYEEs.Add(employee);
@@ -88,6 +89,32 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+        public Message UpdateSession (MEMPLOYEE Employee)
+        {
+            try
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    MEMPLOYEE getEmp = getEmployee(Employee.EmployeeId);
+                    getEmp.SessionID = Employee.SessionID;
+                    db.Entry(getEmp).State = EntityState.Modified;
+                    if (db.SaveChanges() > 0)
+                    {
+                        msg.setMessage("MSG0001", "Data updated successfully", null);
+                    }
+                    else
+                    {
+                        msg.setMessage("MSG0002", "Data could not be updated", null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
+                throw ex;
+            }
+            return msg;
+        }
         public List<MEMPLOYEE> ListEmployee ()
         {
             listEmployee = new List<MEMPLOYEE>();
@@ -105,7 +132,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return listEmployee;
         }
-        public MEMPLOYEE getEmployee(int? EmployeeID)
+        public MEMPLOYEE getEmployee(String EmployeeID)
         {
             MEMPLOYEE employee = new MEMPLOYEE();
             if (EmployeeID != null)
@@ -117,7 +144,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return employee;
         }
-        public MEMPLOYEE getEmployee(String Username)
+        public MEMPLOYEE getEmployeeByUsername(String Username)
         {
             MEMPLOYEE employee = new MEMPLOYEE();
             if (Username != null)
@@ -129,7 +156,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return employee;
         }
-        public Int32 getEmployeeID()
+        public String getEmployeeID()
         {
             var emailID = "";
             using (var db = new GENEntities())
@@ -143,7 +170,7 @@ namespace GENFrontEnd.Models.EntityManager
                     msg.setMessage(null, ex.Message, "ERR0001");
                 }
             }
-            return Convert.ToInt32(String.IsNullOrEmpty(emailID) ? "0" : emailID);
+            return (String.IsNullOrEmpty(emailID) ? "0" : emailID);
         }
     }
 }

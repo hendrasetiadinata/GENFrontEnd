@@ -34,7 +34,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="bigint" Nullable="false" />
+          <Property Name="EmployeeId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="UserId" Type="varchar" MaxLength="50" />
           <Property Name="Password" Type="varchar" MaxLength="200" />
           <Property Name="EmployeeName" Type="varchar" MaxLength="255" />
@@ -54,6 +54,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="Phone" Type="varchar" MaxLength="20" />
           <Property Name="Phone2" Type="varchar" MaxLength="20" />
           <Property Name="JoinDate" Type="date" />
+          <Property Name="SessionID" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="MPOSITION">
           <Key>
@@ -85,7 +86,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="SessionID" />
           </Key>
-          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="EmployeeID" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SessionID" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
@@ -127,7 +128,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Key>
             <PropertyRef Name="EmployeeId" />
           </Key>
-          <Property Name="EmployeeId" Type="String" Nullable="false" />
+          <Property Name="EmployeeId" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="EmployeeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -147,6 +148,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="JoinDate" Type="DateTime" Precision="0" />
+          <Property Name="SessionID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="MPOSITION">
           <Key>
@@ -197,7 +199,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="SessionID" />
           </Key>
-          <Property Name="EmployeeID" Type="Int64" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" />
           <Property Name="SessionID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
@@ -223,6 +225,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <EntitySetMapping Name="MEMPLOYEEs">
             <EntityTypeMapping TypeName="GENModel.MEMPLOYEE">
               <MappingFragment StoreEntitySet="MEMPLOYEE">
+                <ScalarProperty Name="SessionID" ColumnName="SessionID" />
                 <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />

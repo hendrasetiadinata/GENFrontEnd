@@ -23,10 +23,8 @@ namespace GENFrontEnd.Controllers
         BusinessLogic.Model.Message message = new BusinessLogic.Model.Message();
         BusinessLogic.Model.Email email = new BusinessLogic.Model.Email();
         Models.EntityManager.EmailManager emailManager = new Models.EntityManager.EmailManager();
-        Models.EntityManager.LogManager logManager = new Models.EntityManager.LogManager();
         Models.EntityManager.EmployeeManager employeeManager = new Models.EntityManager.EmployeeManager();
         TREMAIL trEmail = new TREMAIL();
-        TRLOG trLog = new TRLOG();
         MEMPLOYEE employee = new MEMPLOYEE();
 
         public ActionResult Login()
@@ -38,33 +36,22 @@ namespace GENFrontEnd.Controllers
                 NameValueCollection nvc = Request.Form;
                 String Username = Convert.ToString(nvc["Username"]);
                 String Password = Convert.ToString(nvc["Password"]);
-                employee = employeeManager.getEmployee(Username);
+                String Md5Password = enc.getMd5Hash(Password);
+                employee = employeeManager.getEmployeeByUsername(Username);
                 if (employee != null)
                 {
-                    if ((enc.Decrypt(employee.Password, "istananegara") == Password)
-                        && (Username.Trim() == employee.UserId))
+                    if ((employee.Password == Md5Password) && (Username.Trim() == employee.UserId))
                     {
                         Message = "Login berhasil";
-
-                        trLog = logManager.getLog(Convert.ToString(employee.EmployeeId));
+                        
                         string SessionID = Guid.NewGuid().ToString();
+                        employee.SessionID = SessionID;
+                        Message updateSession = employeeManager.UpdateSession(employee);
 
-                        TRLOG sendLog = new TRLOG();
-                        sendLog.EmployeeID = Convert.ToString(employee.EmployeeId);
-                        sendLog.CreatedDate = DateTime.Now;
-                        sendLog.SessionID = SessionID;
-                        Message msgLog = new Message();
-                        if (trLog != null)
-                        {
-                            msgLog = logManager.UpdateLog(sendLog);
-                        }
-                        else
-                        {
-                            msgLog = logManager.InsertLog(sendLog);
-                        }
                         Status = true;
                         Session.Add("SESSIONID", Session);
                         Session.Add("EMPLOYEEID", employee.EmployeeId);
+                        Session.Add("COMPLETENAME", employee.EmployeeName);
                     }
                     else
                     {
@@ -76,16 +63,34 @@ namespace GENFrontEnd.Controllers
                     Message = "Username belum terdaftar";
                 }
             }
-            if (!Status)
+            if (Status)
+            {
+                Response.Redirect("/BackEnd/Home");
+            }
+            else
             {
                 Session["SESSIONID"] = null;
                 Session["EMPLOYEEID"] = null;
+                Session["COMPLETENAME"] = null;
             }
             ViewData["MESSAGE"] = Message;
-            ViewData["STATUS"] = Status;
             return View();
         }
-
+        public ActionResult _LayoutPageLumino()
+        {
+            employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+            String EmployeeName = "";
+            if (employee != null)
+            {
+                EmployeeName = employee.EmployeeName;
+            }
+            ViewData["EMPLOYEENAME"] = EmployeeName;
+            return View();
+        }
+        public ActionResult Home()
+        {
+            return View();
+        }
         public ActionResult MasterEmail()
         {
             return View();
