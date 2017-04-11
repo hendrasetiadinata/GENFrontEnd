@@ -95,7 +95,46 @@ namespace GENFrontEnd.Controllers
         {
             return View();
         }
-
+        public ActionResult ChangePassword()
+        {
+            String Message = "", ErrorMessage = "";
+            if (Request.Form != null && Request.Form.AllKeys.Count() > 0)
+            {
+                NameValueCollection nvc = Request.Form;
+                employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+                if (employee != null)
+                {
+                    String CurrentPassword = enc.getMd5Hash(nvc["CurrentPassword"].ToString());
+                    String NewPassword = nvc["NewPassword"].Trim();
+                    String ConfirmPassword = nvc["ConfirmPassword"].Trim();
+                    if (CurrentPassword == Convert.ToString(employee.Password))
+                    {
+                        if (NewPassword == ConfirmPassword)
+                        {
+                            MEMPLOYEE updatePass = new MEMPLOYEE();
+                            updatePass.EmployeeId = employee.EmployeeId;
+                            updatePass.Password = enc.getMd5Hash(NewPassword);
+                            Message updTrans = employeeManager.UpdatePassword(updatePass);
+                            if (updTrans != null && updTrans.ErrorCode == null)
+                            {
+                                Message = "Update password berhasil";
+                            }
+                        }
+                        else
+                        {
+                            ErrorMessage = "New password tidak sesuai dengan confirm password";
+                        }
+                    }
+                    else
+                    {
+                        ErrorMessage = "Confirm password tidak valid";
+                    }
+                }
+            }
+            ViewData["MESSAGE"] = Message;
+            ViewData["ERRORMESSAGE"] = ErrorMessage;
+            return View();
+        }
         public String getQuestion()
         {
             var queryString = HttpContext.Request.QueryString;
@@ -146,11 +185,12 @@ namespace GENFrontEnd.Controllers
             basicCredential1.Password = ConfigurationManager.AppSettings["PASSWORDMAIL"];
 
             SmtpClient client = new SmtpClient();
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential1;
-            client.Host = ConfigurationManager.AppSettings["PASSWORDSMTP"];
-            client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["PASSWORDSMTP"]);
+            client.Host = ConfigurationManager.AppSettings["HOSTMAIL"];
+            client.Port = Convert.ToInt32(ConfigurationManager.AppSettings["PORT"]);
             try
             {
                 client.Send(message);

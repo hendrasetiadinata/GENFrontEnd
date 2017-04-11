@@ -115,6 +115,32 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+        public Message UpdatePassword(MEMPLOYEE Employee)
+        {
+            try
+            {
+                using (GENEntities db = new GENEntities())
+                {
+                    MEMPLOYEE getEmp = getEmployee(Employee.EmployeeId);
+                    getEmp.Password = Employee.Password;
+                    db.Entry(getEmp).State = EntityState.Modified;
+                    if (db.SaveChanges() > 0)
+                    {
+                        msg.setMessage("MSG0001", "Data updated successfully", null);
+                    }
+                    else
+                    {
+                        msg.setMessage("MSG0002", "Data could not be updated", null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage(null, ex.Message, "ERR0001");
+                throw ex;
+            }
+            return msg;
+        }
         public List<MEMPLOYEE> ListEmployee ()
         {
             listEmployee = new List<MEMPLOYEE>();

@@ -11,6 +11,7 @@
 
 .textOnImage:hover{
     cursor: pointer;
+    color: #ff6666;
 }
 
 .general-english{
@@ -26,7 +27,7 @@
 }
 
 .Facilities_1{
-    background-image: url(../../Images/Facilities/Facilities_1.jpg);
+    background-image: url(../../Images/Facilities/Facilities_2.jpg);
 }
 
 .Facilities_2{

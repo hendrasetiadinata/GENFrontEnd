@@ -73,32 +73,29 @@
             SenderQuestion: $("#SenderQuestion").val()
         }
         waitingDialog.show('Mohon ditunggu, data sedang dikirim');
-        setTimeout(function () { waitingDialog.hide(); }, 3000);
-        $.ajax({
-            url: "/Main/SendQuestion",
-            type: "POST",
-            dataType: "json",
-            timeout: 200000,
-            data: (parameter),
-            beforeSend: function () {
-                $("#divInfoMsg").text("");
-            },
-            success: function (data, textStatus, jqXHR) {
-                waitingDialog.hide();
-                alert(data.Description);
-                //$("#msgInfo").text(data.Description);
-                //$('#divInfoMsg').show();
-                //$('#divInfoMsg').delay(6000).fadeOut("slow", function () {
-                //    // Animation complete.
-                //    $('#divInfoMsg').prop("disabled", false);
-                //});
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log(jqXHR);
-            },
-            complete: function () {
-            }
-        });
+        setTimeout(function () {
+            $.ajax({
+                url: "/Main/SendQuestion",
+                type: "POST",
+                dataType: "json",
+                timeout: 200000,
+                data: (parameter),
+                beforeSend: function () {
+                    $("#divInfoMsg").text("");
+                },
+                success: function (data, textStatus, jqXHR) {
+                    waitingDialog.hide();
+                    alert(data.Description);
+                    $("#SenderFullName").val(""); $("#SenderEmail").val(""); $("#SenderPhone").val(""); $("#SenderQuestion").val("");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                },
+                complete: function () {
+                }
+            });
+        }, 3000);
+        
     }
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYLFXTmSvtE3gqHcChc6fgXTC6wHmmfMY&callback=initMap"></script>

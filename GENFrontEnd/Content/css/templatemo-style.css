@@ -140,12 +140,22 @@ img:hover {
 	margin-top: 60px;
 	margin-bottom: 10px;
 }
-/* program, gallery section*/
-#program,#gallery {
+/* program section*/
+#program {
 	padding-top: 60px;
 	padding-bottom: 80px;
 }
-#program,#gallery h2 {
+#program h2 {
+	border-right: 2px solid #f2af00;
+	display: inline-block;
+	padding: 10px 20px 10px 10px;
+}
+/* program, gallery section*/
+#gallery {
+	padding-top: 60px;
+	padding-bottom: 80px;
+}
+#gallery h2 {
 	border-right: 2px solid #f2af00;
 	display: inline-block;
 	padding: 10px 20px 10px 10px;
