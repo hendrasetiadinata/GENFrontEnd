@@ -97,43 +97,51 @@ namespace GENFrontEnd.Controllers
         }
         public ActionResult ChangePassword()
         {
-            String Message = "", ErrorMessage = "";
-            if (Request.Form != null && Request.Form.AllKeys.Count() > 0)
+            return View();
+        }
+        [HttpPost]
+        public String SaveChangePassword(String _CurrentPassword, String _NewPassword, String _ConfirmPassword)
+        {
+            if (!String.IsNullOrEmpty(_CurrentPassword) && !String.IsNullOrEmpty(_NewPassword) && !String.IsNullOrEmpty(_ConfirmPassword))
             {
-                NameValueCollection nvc = Request.Form;
-                employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
-                if (employee != null)
+                if (Request.Form != null && Request.Form.AllKeys.Count() > 0)
                 {
-                    String CurrentPassword = enc.getMd5Hash(nvc["CurrentPassword"].ToString());
-                    String NewPassword = nvc["NewPassword"].Trim();
-                    String ConfirmPassword = nvc["ConfirmPassword"].Trim();
-                    if (CurrentPassword == Convert.ToString(employee.Password))
+                    employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+                    if (employee != null)
                     {
-                        if (NewPassword == ConfirmPassword)
+                        String CurrentPassword = enc.getMd5Hash(_CurrentPassword);
+                        String NewPassword = _NewPassword;
+                        String ConfirmPassword = _ConfirmPassword;
+                        if (CurrentPassword == Convert.ToString(employee.Password))
                         {
-                            MEMPLOYEE updatePass = new MEMPLOYEE();
-                            updatePass.EmployeeId = employee.EmployeeId;
-                            updatePass.Password = enc.getMd5Hash(NewPassword);
-                            Message updTrans = employeeManager.UpdatePassword(updatePass);
-                            if (updTrans != null && updTrans.ErrorCode == null)
+                            if (NewPassword == ConfirmPassword)
                             {
-                                Message = "Update password berhasil";
+                                MEMPLOYEE updatePass = new MEMPLOYEE();
+                                updatePass.EmployeeId = employee.EmployeeId;
+                                updatePass.Password = enc.getMd5Hash(NewPassword);
+                                Message updTrans = employeeManager.UpdatePassword(updatePass);
+                                if (updTrans != null && updTrans.ErrorCode == null)
+                                {
+                                    message = updTrans;
+                                }
+                                else
+                                {
+                                    message = message.getMessage(null, "Update password is failed, call administrator", "ERR001");
+                                }
+                            }
+                            else
+                            {
+                                message = message.getMessage(null, "New password tidak sesuai dengan confirm password", "ERR001");
                             }
                         }
                         else
                         {
-                            ErrorMessage = "New password tidak sesuai dengan confirm password";
+                            message = message.getMessage(null, "Confirm password tidak valid", "ERR001");
                         }
-                    }
-                    else
-                    {
-                        ErrorMessage = "Confirm password tidak valid";
                     }
                 }
             }
-            ViewData["MESSAGE"] = Message;
-            ViewData["ERRORMESSAGE"] = ErrorMessage;
-            return View();
+            return JsonConvert.SerializeObject(message);
         }
         public String getQuestion()
         {
