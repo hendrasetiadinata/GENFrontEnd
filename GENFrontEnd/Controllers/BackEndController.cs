@@ -13,6 +13,7 @@ using System.Text;
 using GENFrontEnd.Models.DB;
 using BusinessLogic.Model;
 using System.Configuration;
+using GENFrontEnd.Models.EntityManager;
 
 namespace GENFrontEnd.Controllers
 {
@@ -20,12 +21,15 @@ namespace GENFrontEnd.Controllers
     {
         // GET: BackEnd
         Encryption enc = new Encryption();
-        BusinessLogic.Model.Message message = new BusinessLogic.Model.Message();
-        BusinessLogic.Model.Email email = new BusinessLogic.Model.Email();
-        Models.EntityManager.EmailManager emailManager = new Models.EntityManager.EmailManager();
-        Models.EntityManager.EmployeeManager employeeManager = new Models.EntityManager.EmployeeManager();
+        Message message = new Message();
+        Email email = new Email();
+        EmailManager emailManager = new EmailManager();
+        EmployeeManager employeeManager = new EmployeeManager();
         TREMAIL trEmail = new TREMAIL();
         MEMPLOYEE employee = new MEMPLOYEE();
+        BranchManager branchManager = new BranchManager();
+        PositionManager positionManager = new PositionManager();
+        ComboManager comboManager = new ComboManager();
 
         public ActionResult Login()
         {
@@ -76,6 +80,7 @@ namespace GENFrontEnd.Controllers
             ViewData["MESSAGE"] = Message;
             return View();
         }
+
         public ActionResult _LayoutPageLumino()
         {
             employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
@@ -87,18 +92,53 @@ namespace GENFrontEnd.Controllers
             ViewData["EMPLOYEENAME"] = EmployeeName;
             return View();
         }
+
         public ActionResult Home()
         {
             return View();
         }
+
         public ActionResult MasterEmail()
         {
             return View();
         }
+
         public ActionResult ChangePassword()
         {
             return View();
         }
+
+        public ActionResult MasterEmployee()
+        {
+            List<MBRANCH> ListBranch = branchManager.GetListBranch(null);
+            List<MPOSITION> ListPosition = positionManager.GetListPosition(null);
+            List<MCOMBO> ListCombo = comboManager.GetListCombo(null);
+
+            var itemBranch = ListBranch.Select(x => new SelectListItem
+            {
+                Text = Convert.ToString(x.BranchName),
+                Value = Convert.ToString(x.BranchID)
+            });
+
+            var itemPosition = ListPosition.Select(x => new SelectListItem
+            {
+                Text = Convert.ToString(x.PositionName),
+                Value = Convert.ToString(x.IdPosition)
+            });
+
+            var itemCombo = ListCombo.Select(x => new SelectListItem
+            {
+                Text = Convert.ToString(x.Title),
+                Value = Convert.ToString(x.ComboId)
+            });
+
+            ViewBag.ListBranch = itemBranch;
+            ViewBag.ListPosition = itemPosition;
+            ViewBag.ListCombo = itemCombo;
+
+            return View();
+        }
+
         [HttpPost]
         public String SaveChangePassword(String _CurrentPassword, String _NewPassword, String _ConfirmPassword)
         {
@@ -143,6 +183,7 @@ namespace GENFrontEnd.Controllers
             }
             return JsonConvert.SerializeObject(message);
         }
+
         public String getQuestion()
         {
             var queryString = HttpContext.Request.QueryString;
@@ -156,6 +197,7 @@ namespace GENFrontEnd.Controllers
             }
             return Result;
         }
+
         [HttpPost]
         public String ReplyMessage (String EmailID, String ReplyMessage, String EmailCategory)
         {
@@ -175,6 +217,7 @@ namespace GENFrontEnd.Controllers
             }
             return Result;
         }
+
         private Message sendEmail (BusinessLogic.Model.Email email)
         {
             Message msg = new Message();
@@ -212,6 +255,86 @@ namespace GENFrontEnd.Controllers
                 throw ex;
             }
             return msg;
+        }
+
+        public String getListEmployee()
+        {
+            var queryString = HttpContext.Request.QueryString;
+            NameValueCollection nvc = HttpUtility.ParseQueryString(Convert.ToString(queryString));
+            string EmployeeID = Convert.ToString(nvc["EmployeeID"]),
+                Result = "";
+            employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+            if (employee != null)
+            {
+                List<MEMPLOYEE> listEmployee = employeeManager.ListEmployee(null);
+                Result = JsonConvert.SerializeObject(listEmployee);
+            }
+            return Result;
+        }
+
+        [HttpPost]
+        public String InsertNewEmployee(String UserID, String Password, String EmployeeName, String Position,
+            String Supercoordinate, String Gender, String BranchID, String PublicEmail, String OfficeEmail,
+            String BirthDate, String Phone, String Phone2)
+        {
+            String Result = "";
+            employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+            if (employee != null)
+            {
+                MEMPLOYEE insertEmployee = new MEMPLOYEE();
+                insertEmployee.Active = 1;
+                insertEmployee.BirthDate = Convert.ToDateTime(BirthDate);
+                insertEmployee.BranchID = Convert.ToString(BranchID);
+                insertEmployee.CreatedBy = employee.EmployeeId;
+                insertEmployee.CreatedDate = DateTime.Now;
+                insertEmployee.EmployeeName = EmployeeName;
+                insertEmployee.Gender = Gender;
+                insertEmployee.JoinDate = DateTime.Now;
+                insertEmployee.OfficeEmail = OfficeEmail;
+                insertEmployee.Password = Password;
+                insertEmployee.Phone = Phone;
+                insertEmployee.Phone2 = Phone2;
+                insertEmployee.Position = Position;
+                insertEmployee.PublicEmail = PublicEmail;
+                insertEmployee.Supercoordinate = Supercoordinate;
+                insertEmployee.UserId = UserID;
+                message = employeeManager.InsertEmployee(insertEmployee);
+                Result = JsonConvert.SerializeObject(message);
+            }
+            return Result;
+        }
+
+        [HttpPost]
+        public String UpdateEmployee(String EmployeeID,String UserID, String Password, String EmployeeName, String Position,
+            String Supercoordinate, String Gender, String BranchID, String PublicEmail, String OfficeEmail,
+            String BirthDate, String Phone, String Phone2)
+        {
+            String Result = "";
+            employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+            if (employee != null)
+            {
+                MEMPLOYEE updateEmployee = new MEMPLOYEE();
+                updateEmployee.EmployeeId = EmployeeID;
+                updateEmployee.Active = 1;
+                updateEmployee.BirthDate = Convert.ToDateTime(BirthDate);
+                updateEmployee.BranchID = Convert.ToString(BranchID);
+                updateEmployee.CreatedBy = employee.EmployeeId;
+                updateEmployee.CreatedDate = DateTime.Now;
+                updateEmployee.EmployeeName = EmployeeName;
+                updateEmployee.Gender = Gender;
+                updateEmployee.JoinDate = DateTime.Now;
+                updateEmployee.OfficeEmail = OfficeEmail;
+                updateEmployee.Password = Password;
+                updateEmployee.Phone = Phone;
+                updateEmployee.Phone2 = Phone2;
+                updateEmployee.Position = Position;
+                updateEmployee.PublicEmail = PublicEmail;
+                updateEmployee.Supercoordinate = Supercoordinate;
+                updateEmployee.UserId = UserID;
+                message = employeeManager.UpdateEmployee(updateEmployee);
+                Result = JsonConvert.SerializeObject(message);
+            }
+            return Result;
         }
     }
 }

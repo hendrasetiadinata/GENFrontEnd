@@ -5,18 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="GENModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MBRANCH">
           <Key>
             <PropertyRef Name="BranchID" />
           </Key>
-          <Property Name="BranchID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BranchID" Type="varchar" MaxLength="10" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BranchName" Type="varchar" MaxLength="50" />
           <Property Name="BranchAddress" Type="varchar(max)" />
           <Property Name="BranchPhoneNumber" Type="varchar" MaxLength="50" />
           <Property Name="BranchFaxNumber" Type="varchar" MaxLength="50" />
           <Property Name="BranchManager" Type="varchar" MaxLength="50" />
+          <Property Name="Latitude" Type="varchar" MaxLength="50" />
+          <Property Name="Longitude" Type="varchar" MaxLength="50" />
+          <Property Name="Active" Type="int" />
         </EntityType>
         <EntityType Name="MCOMBO">
           <Key>
@@ -30,6 +31,16 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="OrderNumber" Type="int" />
           <Property Name="Category" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="MCOURSE">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="CourseName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Purpose" Type="varchar(max)" />
+          <Property Name="Active" Type="int" />
+        </EntityType>
         <EntityType Name="MEMPLOYEE">
           <Key>
             <PropertyRef Name="EmployeeId" />
@@ -41,7 +52,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="Position" Type="varchar" MaxLength="5" />
           <Property Name="Supercoordinate" Type="varchar" MaxLength="50" />
           <Property Name="Gender" Type="varchar" MaxLength="1" />
-          <Property Name="BranchID" Type="int" />
+          <Property Name="BranchID" Type="varchar" MaxLength="10" />
           <Property Name="PublicEmail" Type="varchar" MaxLength="50" />
           <Property Name="OfficeEmail" Type="varchar" MaxLength="50" />
           <Property Name="CreatedDate" Type="datetime" />
@@ -63,6 +74,44 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="IdPosition" Type="varchar" MaxLength="5" Nullable="false" />
           <Property Name="PositionName" Type="varchar" MaxLength="50" />
           <Property Name="Active" Type="int" />
+        </EntityType>
+        <EntityType Name="MSTUDENT">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="varchar" MaxLength="30" />
+          <Property Name="KTP" Type="varchar" MaxLength="30" />
+          <Property Name="BranchID" Type="varchar" MaxLength="10" />
+          <Property Name="RegisterDate" Type="date" />
+          <Property Name="CreatedDate" Type="date" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="Education" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="SYSTEMHISTORY">
+          <Key>
+            <PropertyRef Name="SeqNo" />
+          </Key>
+          <Property Name="SeqNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Module" Type="varchar" MaxLength="50" />
+          <Property Name="ErrorDescription" Type="varchar(max)" />
+          <Property Name="ReferenceID" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TCOURSE">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="CourseID" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="BranchID" Type="varbinary" MaxLength="10" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" />
+          <Property Name="EndDate" Type="datetime" />
         </EntityType>
         <EntityType Name="TREMAIL">
           <Key>
@@ -91,22 +140,21 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="CreatedDate" Type="datetime" />
         </EntityType>
         <Function Name="GetEmailId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar" />
+        <Function Name="GetEmployeeId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar" />
+        <Function Name="SP_GETEMAIL" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="EMAILID" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="GENModelStoreContainer">
+          <EntitySet Name="MBRANCH" EntityType="Self.MBRANCH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MCOMBO" EntityType="Self.MCOMBO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MCOURSE" EntityType="Self.MCOURSE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MEMPLOYEE" EntityType="Self.MEMPLOYEE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MPOSITION" EntityType="Self.MPOSITION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MSTUDENT" EntityType="Self.MSTUDENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYSTEMHISTORY" EntityType="Self.SYSTEMHISTORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TCOURSE" EntityType="Self.TCOURSE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TREMAIL" EntityType="Self.TREMAIL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TRLOG" EntityType="Self.TRLOG" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MBRANCH" EntityType="Self.MBRANCH" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [MBRANCH].[BranchID] AS [BranchID], 
-    [MBRANCH].[BranchName] AS [BranchName], 
-    [MBRANCH].[BranchAddress] AS [BranchAddress], 
-    [MBRANCH].[BranchPhoneNumber] AS [BranchPhoneNumber], 
-    [MBRANCH].[BranchFaxNumber] AS [BranchFaxNumber], 
-    [MBRANCH].[BranchManager] AS [BranchManager]
-    FROM [dbo].[MBRANCH] AS [MBRANCH]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -135,7 +183,7 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Property Name="Position" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
           <Property Name="Supercoordinate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Gender" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <Property Name="BranchID" Type="Int32" />
+          <Property Name="BranchID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="PublicEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OfficeEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
@@ -179,12 +227,15 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <Key>
             <PropertyRef Name="BranchID" />
           </Key>
-          <Property Name="BranchID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BranchID" Type="String" Nullable="false"  MaxLength="10" />
           <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BranchAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="BranchPhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BranchFaxNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="BranchManager" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Latitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Longitude" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
         </EntityType>
         <EntityContainer Name="GENEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="MCOMBOes" EntityType="Self.MCOMBO" />
@@ -193,16 +244,85 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <EntitySet Name="TREMAILs" EntityType="Self.TREMAIL" />
           <EntitySet Name="MBRANCHes" EntityType="Self.MBRANCH" />
           <EntitySet Name="TRLOGs" EntityType="GENModel.TRLOG" />
+          <EntitySet Name="MCOURSEs" EntityType="GENModel.MCOURSE" />
+          <EntitySet Name="MSTUDENTs" EntityType="GENModel.MSTUDENT" />
+          <EntitySet Name="SYSTEMHISTORies" EntityType="GENModel.SYSTEMHISTORY" />
+          <EntitySet Name="TCOURSEs" EntityType="GENModel.TCOURSE" />
+          <FunctionImport Name="SP_GETEMAIL" ReturnType="Collection(GENModel.SP_GETEMAIL_Result)">
+            <Parameter Name="EMAILID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="TRLOG">
           <Key>
             <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="SessionID" />
           </Key>
-          <Property Name="EmployeeID" Type="String" Nullable="false" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="SessionID" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="MCOURSE">
+          <Key>
+            <PropertyRef Name="CourseID" />
+          </Key>
+          <Property Name="CourseID" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CourseName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Purpose" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Active" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MSTUDENT">
+          <Key>
+            <PropertyRef Name="StudentID" />
+          </Key>
+          <Property Name="StudentID" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="KTP" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BranchID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="RegisterDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Education" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SYSTEMHISTORY">
+          <Key>
+            <PropertyRef Name="SeqNo" />
+          </Key>
+          <Property Name="SeqNo" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Module" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ErrorDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ReferenceID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="TCOURSE">
+          <Key>
+            <PropertyRef Name="CourseID" />
+            <PropertyRef Name="BranchID" />
+          </Key>
+          <Property Name="CourseID" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="BranchID" Type="Binary" Nullable="false" MaxLength="10" FixedLength="false" />
+          <Property Name="StartDate" Type="DateTime" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <ComplexType Name="SP_GETEMAIL_Result">
+          <Property Type="Int64" Name="EmailID" Nullable="false" />
+          <Property Type="String" Name="SenderFullName" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="SenderPhone" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SenderEmail" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="SenderQuestion" Nullable="true" />
+          <Property Type="String" Name="SenderIP" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="Int32" Name="IsReply" Nullable="true" />
+          <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ReplyDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ReplyMessage" Nullable="true" />
+          <Property Type="String" Name="EmailCategory" Nullable="true" MaxLength="5" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -279,6 +399,9 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
           <EntitySetMapping Name="MBRANCHes">
             <EntityTypeMapping TypeName="GENModel.MBRANCH">
               <MappingFragment StoreEntitySet="MBRANCH">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="BranchID" ColumnName="BranchID" />
                 <ScalarProperty Name="BranchName" ColumnName="BranchName" />
                 <ScalarProperty Name="BranchAddress" ColumnName="BranchAddress" />
@@ -297,6 +420,75 @@ warning 6002: The table/view 'GEN.dbo.MBRANCH' does not have a primary key defin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="MCOURSEs">
+            <EntityTypeMapping TypeName="GENModel.MCOURSE">
+              <MappingFragment StoreEntitySet="MCOURSE">
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Purpose" ColumnName="Purpose" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MSTUDENTs">
+            <EntityTypeMapping TypeName="GENModel.MSTUDENT">
+              <MappingFragment StoreEntitySet="MSTUDENT">
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="KTP" ColumnName="KTP" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="StudentID" ColumnName="StudentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYSTEMHISTORies">
+            <EntityTypeMapping TypeName="GENModel.SYSTEMHISTORY">
+              <MappingFragment StoreEntitySet="SYSTEMHISTORY">
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ReferenceID" ColumnName="ReferenceID" />
+                <ScalarProperty Name="ErrorDescription" ColumnName="ErrorDescription" />
+                <ScalarProperty Name="Module" ColumnName="Module" />
+                <ScalarProperty Name="SeqNo" ColumnName="SeqNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TCOURSEs">
+            <EntityTypeMapping TypeName="GENModel.TCOURSE">
+              <MappingFragment StoreEntitySet="TCOURSE">
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SP_GETEMAIL" FunctionName="GENModel.Store.SP_GETEMAIL">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GENModel.SP_GETEMAIL_Result">
+                <ScalarProperty Name="EmailID" ColumnName="EmailID" />
+                <ScalarProperty Name="SenderFullName" ColumnName="SenderFullName" />
+                <ScalarProperty Name="SenderPhone" ColumnName="SenderPhone" />
+                <ScalarProperty Name="SenderEmail" ColumnName="SenderEmail" />
+                <ScalarProperty Name="SenderQuestion" ColumnName="SenderQuestion" />
+                <ScalarProperty Name="SenderIP" ColumnName="SenderIP" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsReply" ColumnName="IsReply" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ReplyDate" ColumnName="ReplyDate" />
+                <ScalarProperty Name="ReplyMessage" ColumnName="ReplyMessage" />
+                <ScalarProperty Name="EmailCategory" ColumnName="EmailCategory" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

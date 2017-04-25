@@ -39,7 +39,6 @@ namespace GENFrontEnd.Models.EntityManager
                 employee.Phone = Employee.Phone;
                 employee.Phone2 = Employee.Phone2;
                 employee.JoinDate = Employee.JoinDate;
-                employee.SessionID = Employee.SessionID;
                 using (GENEntities db = new GENEntities())
                 {
                     db.MEMPLOYEEs.Add(employee);
@@ -60,6 +59,48 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+
+        public Message UpdateEmployee(MEMPLOYEE Employee)
+        {
+            try
+            {
+                MEMPLOYEE employee = getEmployee(Employee.EmployeeId);
+                employee.Password = Employee.Password;
+                employee.Position = Employee.Position;
+                employee.Supercoordinate = Employee.Supercoordinate;
+                employee.Gender = Employee.Gender;
+                employee.BranchID = Employee.BranchID;
+                employee.PublicEmail = Employee.PublicEmail;
+                employee.OfficeEmail = Employee.OfficeEmail;
+                employee.UpdateDate = DateTime.Now;
+                employee.UpdateBy = Employee.CreatedBy;
+                employee.Active = Employee.Active;
+                employee.Photo = Employee.Photo;
+                employee.BirthDate = Employee.BirthDate;
+                employee.Phone = Employee.Phone;
+                employee.Phone2 = Employee.Phone2;
+                employee.JoinDate = Employee.JoinDate;
+                using (GENEntities db = new GENEntities())
+                {
+                    db.Entry(employee).State = EntityState.Modified;
+                    if (db.SaveChanges() > 0)
+                    {
+                        msg.setMessage("MSG0001", "Data updated successfully", null);
+                    }
+                    else
+                    {
+                        msg.setMessage("MSG0002", "Data could not be saved", null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg.setMessage("MSG0002", "Data could not be updated", null);
+                throw ex;
+            }
+            return msg;
+        }
+
         public Message UpdateEmployee (MEMPLOYEE entity, Expression<Func<MEMPLOYEE, object>>[] properties)
         {
             try
@@ -89,6 +130,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+
         public Message UpdateSession (MEMPLOYEE Employee)
         {
             try
@@ -115,6 +157,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
+
         public Message UpdatePassword(MEMPLOYEE Employee)
         {
             try
@@ -141,14 +184,26 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return msg;
         }
-        public List<MEMPLOYEE> ListEmployee ()
+
+        public List<MEMPLOYEE> ListEmployee (String Active)
         {
             listEmployee = new List<MEMPLOYEE>();
             try
             {
                 using (GENEntities db = new GENEntities())
                 {
-                    listEmployee = db.MEMPLOYEEs.Where(x => x.Active == 1).ToList();
+                    if (Active == "1")
+                    {
+                        listEmployee = db.MEMPLOYEEs.Where(x => x.Active == 1).ToList();
+                    }
+                    else if (Active == "0")
+                    {
+                        listEmployee = db.MEMPLOYEEs.Where(x => x.Active == 0).ToList();
+                    }
+                    else
+                    {
+                        listEmployee = db.MEMPLOYEEs.ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -158,6 +213,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return listEmployee;
         }
+
         public MEMPLOYEE getEmployee(String EmployeeID)
         {
             MEMPLOYEE employee = new MEMPLOYEE();
@@ -170,6 +226,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return employee;
         }
+
         public MEMPLOYEE getEmployeeByUsername(String Username)
         {
             MEMPLOYEE employee = new MEMPLOYEE();
@@ -182,6 +239,7 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return employee;
         }
+
         public String getEmployeeID()
         {
             var emailID = "";
@@ -198,5 +256,6 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return (String.IsNullOrEmpty(emailID) ? "0" : emailID);
         }
+
     }
 }

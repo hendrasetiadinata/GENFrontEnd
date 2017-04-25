@@ -12,16 +12,14 @@ namespace GENFrontEnd.Models.DB
     using System;
     using System.Collections.Generic;
     
-    public partial class MBRANCH
+    public partial class SYSTEMHISTORY
     {
-        public string BranchID { get; set; }
-        public string BranchName { get; set; }
-        public string BranchAddress { get; set; }
-        public string BranchPhoneNumber { get; set; }
-        public string BranchFaxNumber { get; set; }
-        public string BranchManager { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
-        public Nullable<int> Active { get; set; }
+        public long SeqNo { get; set; }
+        public string Module { get; set; }
+        public string ErrorDescription { get; set; }
+        public string ReferenceID { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
+        public string IPAddress { get; set; }
     }
 }

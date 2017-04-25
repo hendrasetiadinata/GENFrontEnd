@@ -12,6 +12,8 @@ namespace GENFrontEnd.Models.DB
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class GENEntities : DbContext
     {
@@ -31,5 +33,18 @@ namespace GENFrontEnd.Models.DB
         public virtual DbSet<TREMAIL> TREMAILs { get; set; }
         public virtual DbSet<MBRANCH> MBRANCHes { get; set; }
         public virtual DbSet<TRLOG> TRLOGs { get; set; }
+        public virtual DbSet<MCOURSE> MCOURSEs { get; set; }
+        public virtual DbSet<MSTUDENT> MSTUDENTs { get; set; }
+        public virtual DbSet<SYSTEMHISTORY> SYSTEMHISTORies { get; set; }
+        public virtual DbSet<TCOURSE> TCOURSEs { get; set; }
+    
+        public virtual ObjectResult<SP_GETEMAIL_Result> SP_GETEMAIL(Nullable<int> eMAILID)
+        {
+            var eMAILIDParameter = eMAILID.HasValue ?
+                new ObjectParameter("EMAILID", eMAILID) :
+                new ObjectParameter("EMAILID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_GETEMAIL_Result>("SP_GETEMAIL", eMAILIDParameter);
+        }
     }
 }

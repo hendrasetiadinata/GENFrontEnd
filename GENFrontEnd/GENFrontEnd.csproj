@@ -231,10 +231,25 @@
     <Compile Include="Models\DB\MCOMBO.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DB\MCOURSE.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DB\MEMPLOYEE.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\MPOSITION.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\MSTUDENT.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\SP_GETEMAIL_Result.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\SYSTEMHISTORY.cs">
+      <DependentUpon>EmailModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DB\TCOURSE.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DB\TREMAIL.cs">
@@ -243,9 +258,12 @@
     <Compile Include="Models\DB\TRLOG.cs">
       <DependentUpon>EmailModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\EntityManager\BranchManager.cs" />
+    <Compile Include="Models\EntityManager\ComboManager.cs" />
     <Compile Include="Models\EntityManager\EmailManager.cs" />
     <Compile Include="Models\EntityManager\EmployeeManager.cs" />
     <Compile Include="Models\EntityManager\LogManager.cs" />
+    <Compile Include="Models\EntityManager\PositionManager.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
@@ -309,6 +327,59 @@
     <Content Include="Content\css\nivo_themes\default\prev%402x.png" />
     <Content Include="Content\css\nivo_themes\default\prev.png" />
     <Content Include="Content\css\templatemo-style.css" />
+    <Content Include="Content\datepicker\bootstrap-datepicker.js" />
+    <Content Include="Content\datepicker\datepicker3.css" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ar.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.az.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.cy.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.et.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.fa.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.gl.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ka.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.kk.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.mk.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.no.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.sq.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.ua.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.vi.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Content\datepicker\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fonts\LANENAR_-webfont.svg" />
@@ -512,6 +583,7 @@
     <Content Include="Views\BackEnd\Login.cshtml" />
     <Content Include="Views\BackEnd\Home.cshtml" />
     <Content Include="Views\BackEnd\ChangePassword.cshtml" />
+    <Content Include="Views\BackEnd\MasterEmployee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

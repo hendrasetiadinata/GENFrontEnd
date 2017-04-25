@@ -21,7 +21,7 @@ namespace GENFrontEnd.Models.DB
         public string Position { get; set; }
         public string Supercoordinate { get; set; }
         public string Gender { get; set; }
-        public Nullable<int> BranchID { get; set; }
+        public string BranchID { get; set; }
         public string PublicEmail { get; set; }
         public string OfficeEmail { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
