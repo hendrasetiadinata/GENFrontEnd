@@ -6,15 +6,12 @@
     ViewBag.CompleteName = Session["COMPLETENAME"];
     ViewBag.UrlPage = "Master / Employee";
 }
-<style type="text/css">
-    #popUpEmail .modal-dialog {width: 1000px;}
-</style>
-<link href="~/Content/datepicker/datepicker3.css" rel="stylesheet" />
-<div>
-    <div class="col-md-3">
-        <input type="button" class="btn btn-info" value="Add" style="width:100px"/>
+
+<div style="margin-left:10px">
+    <div class="row" style="margin-bottom:3.5px">
+        <input id="btnAddNew" type="button" class="btn btn-info" value="Add New" style="width:100px"/>
     </div>
-    <div>
+    <div class="row">
         <table id="tblEmployee" class="table table-hover">
             <thead>
                 <tr>
@@ -30,101 +27,8 @@
         </table>
     </div>
 </div>
-<div class="container">
-    <!-- Modal -->
-    <div id="popUpEmployee" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" onclick="$('#popUpEmployee').modal('hide'); clearPopUpValue();">&times;</button>
-                    <h2 class="modal-title">Employee Detil</h2>
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-default">
-                        <div class="panel-body" id="divPanelBodyPopUp">
-                            <div class="form-group">
-                                <label>Employee ID</label>
-                                <span id="spanSenderName" class="form-control"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>User ID</label>
-                                <input type="text" id="txtUserID" class="form-control" required/>
-                            </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" id="txtPassword" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label>Employee Name</label>
-                                <input type="text" id="txtName" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label>Position</label>
-                                @Html.DropDownList("cmbPosition", new SelectList(ViewBag.ListPosition), new { @class = "form-control", id = "cmbPosition", required = "required" })
-                            </div>
-                            <div class="form-group">
-                                <label>Supercoordinate</label>
-                                @*<select class="form-control" id="cmbSupercoordinate" required>
-                                    <option value=""></option>
-                                </select>*@
-                                @Html.DropDownList("cmbSupercoordinate", new SelectList(ViewBag.ListPosition), new { @class = "form-control", id = "cmbSupercoordinate", required = "required" })
-                            </div>
-                            <div class="form-group">
-                                <label>Gender</label>
-                                <select class="form-control" id="cmbGender" required>
-                                    <option value="">Select Gender</option>
-                                    <option value="F">Female</option>
-                                    <option value="M">Male</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Branch</label>
-                                @*<select class="form-control" id="cmbBranch" required>
-                                    <option value=""></option>
-                                </select>*@
-                                @Html.DropDownList("cmbBranch",new SelectList(ViewBag.ListBranch),new { @class = "form-control", id = "cmbBranch", required = "required" })
-                            </div>
-                            <div class="form-group">
-                                <label>Public Email</label>
-                                <input type="text" id="txtPublicEmail" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Private Email</label>
-                                <input type="text" id="txtPrivateEmail" class="form-control" />
-                            </div>
-                            <div class="form-group">
-                                <label>Active</label>
-                                <select class="form-control" id="cmbActive" required>
-                                    <option value="">Select Active</option>
-                                    <option value="1">Yes</option>
-                                    <option value="0">No</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Birth Date</label>
-                                <input type="text" id="txtBirthDate" class="form-control pull-right" />
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="number" id="txtPhone" class="form-control" required />
-                            </div>
-                            <div class="form-group">
-                                <label>Phone 2</label>
-                                <input type="number" id="txtPhone2" class="form-control" />
-                            </div>
-                            <button id="btnSave" type="submit" class="btn btn-primary" style="width:100px" data-emailid="" onclick="senMessage(this);">Submit</button>
-                            &nbsp;&nbsp;
-                            <button id="btnCancel" type="submit" class="btn btn-warning" style="width:100px" onclick="$('#popUpEmployee').modal('hide'); clearPopUpValue();">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 @section JSSection {
-    <script type="text/javascript" src="~/Content/datepicker/bootstrap-datepicker.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.13/dataRender/datetime.js"></script>
@@ -148,7 +52,7 @@
                     "targets": 1,
                     "data": "EmployeeId",
                     "render": function (data, type, full, meta) {
-                        return '<button style="width:100px;font-weight:bold" class="cell-datatables btn btn-primary btn-mini" data-employeeid="' + data + '">' + data + '</button>';
+                        return '<button style="width:120px;font-weight:bold" class="cell-datatables btn btn-primary btn-mini" data-employeeid="' + data + '">' + data + '</button>';
                     }
                 }]
             });
@@ -159,19 +63,13 @@
             }).draw();
             $('#tblEmployee tbody').on('click', 'button', function () {
                 var datarow = table.row($(this).parents('tr')).data();
-                var EmployeeID = $(this).data("EmployeeID");
-                $("#txtName").text(datarow.EmployeeName);
-                $("#btnSendEmail").attr("data-employeeid", EmployeeID);
-                $("#popUpEmployee").modal("show");
+                var EmployeeID = $(this).data("employeeid");
+                if (EmployeeID != '') {
+                    window.location = "/BackEnd/MasterEmployeeDetail?employeeid=" + EmployeeID + "&Type=upd";
+                }
             });
-            function saveEmployee()
-            {
-
-            }
-        });
-        $(function () {
-            $("#txtBirthDate").datepicker({
-                autoclose: true
+            $("#btnAddNew").click(function () {
+                window.location = "/BackEnd/MasterEmployeeDetail?employeeid=&Type=ins";
             });
         });
     </script>

@@ -14,6 +14,7 @@ using GENFrontEnd.Models.DB;
 using BusinessLogic.Model;
 using System.Configuration;
 using GENFrontEnd.Models.EntityManager;
+using System.Globalization;
 
 namespace GENFrontEnd.Controllers
 {
@@ -110,33 +111,64 @@ namespace GENFrontEnd.Controllers
 
         public ActionResult MasterEmployee()
         {
-            List<MBRANCH> ListBranch = branchManager.GetListBranch(null);
-            List<MPOSITION> ListPosition = positionManager.GetListPosition(null);
-            List<MCOMBO> ListCombo = comboManager.GetListCombo(null);
-
-            var itemBranch = ListBranch.Select(x => new SelectListItem
-            {
-                Text = Convert.ToString(x.BranchName),
-                Value = Convert.ToString(x.BranchID)
-            });
-
-            var itemPosition = ListPosition.Select(x => new SelectListItem
-            {
-                Text = Convert.ToString(x.PositionName),
-                Value = Convert.ToString(x.IdPosition)
-            });
-
-            var itemCombo = ListCombo.Select(x => new SelectListItem
-            {
-                Text = Convert.ToString(x.Title),
-                Value = Convert.ToString(x.ComboId)
-            });
-
-            ViewBag.ListBranch = itemBranch;
-            ViewBag.ListPosition = itemPosition;
-            ViewBag.ListCombo = itemCombo;
-
             return View();
+        }
+
+        public ActionResult MasterEmployeeDetail()
+        {
+            MEMPLOYEE data = new MEMPLOYEE();
+            if (Request != null && Request.QueryString.AllKeys.Count() > 0)
+            {
+                NameValueCollection nvc = Request.QueryString;
+                employee = employeeManager.getEmployee(Convert.ToString(Session["EMPLOYEEID"]));
+                if (employee != null)
+                {
+                    data = employeeManager.getEmployee(Convert.ToString(nvc["employeeid"]));
+                    
+                    List<MBRANCH> ListBranch = branchManager.GetListBranch(null);
+                    List<MPOSITION> ListPosition = positionManager.GetListPosition(null);
+                    List<MCOMBO> ListCombo = comboManager.GetListCombo(null);
+                    List<MEMPLOYEE> ListSupercoordinate = employeeManager.ListEmployee("1").Where(x => x.Position == "P005").ToList();
+
+                    var itemBranch = ListBranch.Select(x => new SelectListItem
+                    {
+                        Text = Convert.ToString(x.BranchName),
+                        Value = Convert.ToString(x.BranchID)
+                    });
+
+                    var itemPosition = ListPosition.Select(x => new SelectListItem
+                    {
+                        Text = Convert.ToString(x.PositionName),
+                        Value = Convert.ToString(x.IdPosition)
+                    });
+
+                    var itemGender = ListCombo.Where(x => x.Category == "GENDER").Select(x => new SelectListItem
+                    {
+                        Text = Convert.ToString(x.Title),
+                        Value = Convert.ToString(x.ComboId)
+                    });
+
+                    var itemActive = ListCombo.Where(x => x.Category == "ACTIVE").Select(x => new SelectListItem
+                    {
+                        Text = Convert.ToString(x.Title),
+                        Value = Convert.ToString(x.ComboId)
+                    });
+
+                    var itemSupercoordinate = ListSupercoordinate.Select(x => new SelectListItem
+                    {
+                        Text = Convert.ToString(x.EmployeeName),
+                        Value = Convert.ToString(x.EmployeeId)
+                    });
+
+                    ViewBag.ListBranch = itemBranch;
+                    ViewBag.ListPosition = itemPosition;
+                    ViewBag.ListGender = itemGender;
+                    ViewBag.ListActive = itemActive;
+                    ViewBag.ListSupercoordinate = itemSupercoordinate;
+                    ViewBag.Type = Convert.ToString(nvc["Type"]);
+                }
+            }
+            return View(data);
         }
 
         [HttpPost]

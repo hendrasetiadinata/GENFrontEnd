@@ -23,5 +23,22 @@ namespace GENFrontEnd.Models.EntityManager
             }
             return listCombo;
         }
+
+        public List<MCOMBO> GetListCombo(String ComboID, String Category)
+        {
+            List<MCOMBO> listCombo = new List<MCOMBO>();
+            using (GENEntities db = new GENEntities())
+            {
+                if (!String.IsNullOrEmpty(ComboID) && !String.IsNullOrEmpty(Category))
+                {
+                    listCombo = db.MCOMBOes.Where(x => x.Category == Category && x.ComboId == ComboID && x.Active == 1).ToList();
+                }
+                else
+                {
+                    listCombo = db.MCOMBOes.Where(x => x.Category == Category && x.Active == 1).ToList();
+                }
+            }
+            return listCombo;
+        }
     }
 }

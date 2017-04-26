@@ -1,0 +1,171 @@
+﻿
+@model GENFrontEnd.Models.DB.MEMPLOYEE
+
+@{
+    ViewBag.Title = "MasterEmployeeDetail";
+    Layout = "~/Views/Shared/_LayoutPageLumino.cshtml";
+    ViewBag.HeaderPage = "Detil Employee";
+    ViewBag.CompleteName = Session["COMPLETENAME"];
+    ViewBag.UrlPage = "Master / Employee / Detil Employee";
+}
+<link href="~/Content/datepicker/datepicker3.css" rel="stylesheet" />
+
+<div style="margin-left:10px">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Employee ID</label>
+                @Html.LabelFor(m => (m.EmployeeId), new { @class = "form-control", id = "spanSenderName"})
+            </div>
+            <div class="form-group">
+                <label>User ID</label>
+                @Html.TextBoxFor(m => (m.UserId), new { @class = "form-control", id = "txtUserID", required = "required", type = "text" })
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                @Html.TextBoxFor(m => (m.Password), new { @class = "form-control", id = "txtPassword", required = "required", type = "password" })
+            </div>
+            <div class="form-group">
+                <label>Employee Name</label>
+                @Html.TextBoxFor(m => (m.EmployeeName), new { @class = "form-control", id = "txtName", required = "required", type = "text" })
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                @Html.DropDownList("cmbPosition", (IEnumerable<SelectListItem>)ViewBag.ListPosition, "Please Select", new { @class = "form-control", id = "cmbPosition", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Supercoordinate</label>
+                @Html.DropDownList("cmbSupercoordinate", (IEnumerable<SelectListItem>)ViewBag.ListSupercoordinate, "Please Select", new { @class = "form-control", id = "cmbSupercoordinate", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                @Html.DropDownList("cmbGender", (IEnumerable<SelectListItem>)ViewBag.ListGender, "Please Select", new { @class = "form-control", id = "cmbGender", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Branch</label>
+                @Html.DropDownList("cmbBranch", (IEnumerable<SelectListItem>)ViewBag.ListBranch, "Please Select", new { @class = "form-control", id = "cmbBranch", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Public Email</label>
+                @Html.TextBoxFor(m => (m.PublicEmail), new { @class = "form-control", id = "txtPublicEmail", type = "email" })
+            </div>
+            <div class="form-group">
+                <label>Office Email</label>
+                @Html.TextBoxFor(m => (m.OfficeEmail), new { @class = "form-control", id = "txtOfficeEmail", type = "email" })
+            </div>
+            <div class="form-group">
+                <label>Active</label>
+                @Html.DropDownList("cmbActive", (IEnumerable<SelectListItem>)ViewBag.ListActive, "Please Select", new { @class = "form-control", id = "cmbActive", required = "required" })
+            </div>
+            <div class="form-group">
+                <label>Birth Date</label>
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control pull-right", id = "txtBirthDate", type = "date" })
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                @Html.TextBoxFor(m => (m.Phone), new { @class = "form-control", id = "txtPhone", type = "tel" })
+            </div>
+            <div class="form-group">
+                <label>Phone 2</label>
+                @Html.TextBoxFor(m => (m.Phone2), new { @class = "form-control", id = "txtPhone2", type = "tel" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="col-md-3">
+                <input type="button" id="btnSave" class="btn btn-primary" style="width:100px" data-employeeid="" value="Save" />
+            </div>
+            <div class="col-md-3">
+                <input type="button" id="btnCancel" class="btn btn-warning" style="width:100px" data-employeeid="" value="Cancel" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section JSSection {
+    <script type="text/javascript" src="~/Content/js/moment.min.js"></script>
+    <script type="text/javascript" src="~/Content/datepicker/bootstrap-datepicker.js"></script>
+    <script type="text/javascript">
+        var Type = '@Html.Raw(ViewBag.Type)';
+        $(function () {
+            $("#txtBirthDate").datepicker({
+                autoclose: true,
+                dateFormat: "yyyy-mm-dd"
+            });
+            $("#btnCancel").click(function () {
+                if (!alert("Are you sure want to cancel?")){
+                    window.location = "/BackEnd/MasterEmployee";
+                }
+            });
+            if (Type == "upd") {
+                $("#btnSave").attr("data-employeeid",'@Html.Raw(@Model.EmployeeId)');
+                $("#txtUserID").text('@Html.Raw(@Model.UserId)');
+                $("#txtName").text('@Html.Raw(@Model.EmployeeName)');
+                $("#cmbPosition").val('@Html.Raw(@Model.Position)');
+                $("#cmbSupercoordinate").val('@Html.Raw(@Model.Supercoordinate)');
+                $("#cmbGender").val('@Html.Raw(@Model.Gender)');
+                $("#cmbBranch").val('@Html.Raw(@Model.BranchID)');
+                $("#txtPublicEmail").text('@Html.Raw(@Model.PublicEmail)');
+                $("#txtOfficeEmail").text('@Html.Raw(@Model.OfficeEmail)');
+                $("#cmbActive").text('@Html.Raw(@Model.Active)');
+                $("#txtPhone").text('@Html.Raw(@Model.Phone)');
+                $("#txtPhone2").text('@Html.Raw(@Model.Phone2)');
+
+                var _date = moment('@Html.Raw(@Model.BirthDate)', 'YYYY-MM-DD');
+                $("#txtBirthDate").datepicker();
+                $("#txtBirthDate").datepicker('setDate',_date);
+            }
+            var parameter = {
+                EmployeeID: (Type == 'upd' ? '@Html.Raw(@Model.EmployeeId)' : ''),
+                UserID: $("#txtUserID").text(),
+                Password: $("#txtPassword").text(),
+                EmployeeName: $("#txtName").text(),
+                Position: $("#cmbPosition").val(),
+                Supercoordinate: $("#cmbSupercoordinate").val(),
+                Gender: $("#cmbGender").val(),
+                BranchID: $("#cmbBranch").val(),
+                PublicEmail: $("#txtPublicEmail").text(),
+                OfficeEmail: $("#txtOfficeEmail").text(),
+                Active: $("#cmbActive").val(),
+                BirthDate: $("#txtBirthDate").text(),
+                Phone: $("#txtPhone").text(),
+                Phone2: $("#txtPhone2").text()
+            };
+            $("#btnSave").click(function () {
+                var _url = "/BackEnd/InsertNewEmployee";
+                if (Type == "upd"){
+                    _url = "/BackEnd/UpdateEmployee";
+                }
+                waitingDialog("Please wait, saving data..");
+                setTimeout(function(){
+                    $.ajax({
+                        url: _url,
+                        type: "POST",
+                        dataType: "json",
+                        timeout: 100000,
+                        data: (parameter),
+                        beforeSend: function () {
+                        },
+                        success: function (data, textStatus, jqXHR) {
+                            if (!alert(data.Description)){
+                                if (data.MessageCode == null){
+                                    window.location = "/BackEnd/MasterEmployee";
+                                }
+                            }
+                            waitingDialog.hide();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            waitingDialog.hide();
+                            console.log(jqXHR);
+                        },
+                        complete: function () {
+                            waitingDialog.hide();
+                            return true;
+                        }
+                    });
+                },2000);
+            });
+        });
+    </script>
+}
